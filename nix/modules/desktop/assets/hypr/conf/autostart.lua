@@ -9,6 +9,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("~/.config/ml4w/scripts/ml4w-wallpaper-app --restore")
     -- Environment for xdg-desktop-portal-hyprland
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    hl.exec_cmd("systemctl --user restart xdg-desktop-portal-hyprland xdg-desktop-portal sunshine")
     -- Autostart scripts
     hl.exec_cmd("~/.config/ml4w/scripts/ml4w-autostart")
     -- Load GTK settings
