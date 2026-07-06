@@ -8,7 +8,10 @@
 
   # [Module Loader] Load feature-specific files
   imports = [
-    ./modules/core/packages.nix
+    ./modules/core/system-utils.nix
+    ./modules/core/fonts.nix
+    ./modules/dev/dev-tools.nix
+    ./modules/desktop/gui-apps.nix
     ./modules/desktop/hyprland.nix
     ./modules/desktop/theme.nix
     ./modules/desktop/wayvnc.nix
@@ -60,8 +63,8 @@
     tocb = "xclip -selection clipboard";
 
     # Home Manager alias for fast rebuilds.
-    # Uses the expected path when downloaded and extracted as a ZIP from GitHub
-    hms = "home-manager switch --flake ~/gui/new_home/#${username} --impure -b backup";
+    # Uses the expected path for the new DevOps modular repository
+    hms = "nix run home-manager/master -- switch --flake ~/home_env_dotfiles-ML4W/#${username} --impure -b backup";
     
     # Zellij aliases
     zj = "zellij";

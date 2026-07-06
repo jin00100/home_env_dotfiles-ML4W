@@ -1,6 +1,12 @@
 { config, pkgs, lib, ... }:
 
 {
+  home.packages = with pkgs; [
+    ayu-theme-gtk
+    papirus-icon-theme
+    bibata-cursors
+  ];
+
   gtk = {
     enable = true;
     theme = {
@@ -96,8 +102,14 @@
       fi
       rm -rf "$backup_dir"
 
-      rm -rf "$dest"
-      mv "$tmp_dest" "$dest"
+      if [ ! -d "$dest" ]; then
+        mv "$tmp_dest" "$dest"
+      else
+        # Use rsync to seamlessly update the directory contents without deleting the folder itself.
+        # This prevents Hyprland from crashing or throwing a "file not found" error during the hot-swap.
+        ${pkgs.rsync}/bin/rsync -a --delete "$tmp_dest/" "$dest/"
+        rm -rf "$tmp_dest"
+      fi
     }
 
     copyConfig "${./assets/hypr}" "hypr"
