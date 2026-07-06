@@ -109,4 +109,11 @@
     enableNushellIntegration = true;
     flags = [ "--disable-up-arrow" ];
   };
+
+  # 10. Navi (Interactive Cheatsheet)
+  programs.navi = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+  };
 }

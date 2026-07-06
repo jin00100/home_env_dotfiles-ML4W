@@ -14,7 +14,7 @@
         partial = true;
         algorithm = "fuzzy"; # 퍼지 검색 활성화
         external = { 
-          enable = true; 
+          enable = false; 
           max_results = 100; 
         };
       };

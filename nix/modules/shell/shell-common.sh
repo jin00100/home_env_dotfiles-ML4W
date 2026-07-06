@@ -56,6 +56,10 @@ fi
 # [Theme & Prompt Settings]
 if is_ssh; then
   export STARSHIP_CONFIG="$HOME/.config/starship-ssh.toml"
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    # SSH_CONNECTION: client_ip client_port server_ip server_port
+    export SSH_LOCAL_IP=$(echo "$SSH_CONNECTION" | awk '{print $3}')
+  fi
 elif is_container; then
   export STARSHIP_CONFIG="$HOME/.config/starship-docker.toml"
 fi
@@ -90,7 +94,11 @@ function ssh() {
 # [Zellij Wrapper]
 function zellij() {
   if is_ssh || is_container; then
-    command zellij --config "$HOME/.config/zellij/remote.kdl" "$@"
+    if [[ -f "$HOME/.config/zellij/remote.kdl" ]]; then
+      command zellij --config "$HOME/.config/zellij/remote.kdl" "$@"
+    else
+      command zellij "$@"
+    fi
   else
     command zellij "$@"
   fi
@@ -100,11 +108,7 @@ function zellij() {
 if [[ $- == *i* ]] && [[ -z "$ZELLIJ" ]] && ! is_vscode; then
   parent_proc=$(ps -p $PPID -o comm= 2>/dev/null)
   if [[ "$parent_proc" != "zellij" ]]; then
-    if is_ssh; then
-      exec zellij --config "$HOME/.config/zellij/remote.kdl"
-    else
-      exec zellij
-    fi
+    exec zellij
   fi
 fi
 
