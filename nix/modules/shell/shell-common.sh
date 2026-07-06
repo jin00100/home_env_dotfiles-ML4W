@@ -104,13 +104,7 @@ function zellij() {
   fi
 }
 
-# [Zellij Auto-start]
-if [[ $- == *i* ]] && [[ -z "$ZELLIJ" ]] && ! is_vscode; then
-  parent_proc=$(ps -p $PPID -o comm= 2>/dev/null)
-  if [[ "$parent_proc" != "zellij" ]]; then
-    exec zellij
-  fi
-fi
+
 
 # [GitLab CLI Configuration]
 if [[ -f /run/secrets/gitlab_token ]] && ! is_container; then
