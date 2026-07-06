@@ -492,7 +492,7 @@ PanelWindow {
             GridView {
                 id: grid
                 Layout.fillWidth: true
-                implicitHeight: Math.min(contentHeight, 520)
+                implicitHeight: contentHeight > 0 ? Math.min(contentHeight, 520) : 520
                 Layout.preferredHeight: implicitHeight
                 clip: true
                 
