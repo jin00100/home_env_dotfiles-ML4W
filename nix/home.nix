@@ -28,6 +28,7 @@
 
     # --- Ported Terminals ---
     ./modules/desktop/ghostty.nix
+    ./modules/desktop/kitty.nix
   ];
 
   targets.genericLinux.enable = true;
