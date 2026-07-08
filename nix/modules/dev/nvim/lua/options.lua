@@ -1,3 +1,7 @@
+local options = {
+  is_transparent = false
+}
+
 -- [기본 옵션]
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -22,3 +26,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.number = true
   end,
 })
+
+return options
