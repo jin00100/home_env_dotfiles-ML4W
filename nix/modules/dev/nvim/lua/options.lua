@@ -13,6 +13,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.termguicolors = true
 vim.opt.laststatus = 3        -- 전역 상태줄 (Global Statusline)
 vim.opt.cmdheight = 1         -- 커맨드 라인 높이 유지
+vim.opt.conceallevel = 2      -- 必须设置为 2 才能让 markview 隐藏 Markdown 标记并显示美化 UI
 
 -- [YAML 전용 설정 (DevOps 추천)]
 vim.api.nvim_create_autocmd("FileType", {

@@ -2,12 +2,14 @@ local utils = require('utils')
 local options = require('options')
 local safe_require = utils.safe_require
 
--- [테마 설정: Ayu]
--- 일관된 경험을 위해 모든 환경에서 'dark' 사용
-vim.g.ayucolor = "dark"
-
--- ayu-vim은 주로 Vimscript이므로 pcall로 직접 호출
-local ok, _ = pcall(vim.cmd.colorscheme, "ayu")
+-- [테마 설정: Catppuccin]
+safe_require('catppuccin', function(cat)
+  cat.setup({
+    flavour = "macchiato", -- latte, frappe, macchiato, mocha
+    transparent_background = false,
+  })
+  vim.cmd.colorscheme("catppuccin")
+end)
 
 -- [투명 배경 및 렌더링 최적화]
 -- 로컬 환경(is_transparent = true)일 때 배경색을 완전히 제거하여 
@@ -281,3 +283,53 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { underline = false, striketh
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { underline = false, strikethrough = true, sp = "Yellow" })
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { underline = false, strikethrough = true, sp = "LightBlue" })
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underline = false, strikethrough = true, sp = "LightGrey" })
+
+-- [Markdown Rendering]
+-- [Markdown Rendering]
+-- 完全复原 markview.nvim 官方 GitHub 的极简高级感配色 (Catppuccin Macchiato 色系)
+local function set_markview_highlights()
+  -- 清除任何可能干扰的丑陋全宽背景
+  vim.api.nvim_set_hl(0, "MarkviewPalette0Bg", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette1Bg", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette2Bg", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette3Bg", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette4Bg", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette5Bg", { bg = "NONE" })
+
+  -- Github 截图里的鲜艳边框和文字颜色 (Catppuccin Macchiato)
+  vim.api.nvim_set_hl(0, "MarkviewPalette0Sign", { fg = "#cad3f5" }) -- Text
+  vim.api.nvim_set_hl(0, "MarkviewPalette1Sign", { fg = "#ed8796" }) -- Red
+  vim.api.nvim_set_hl(0, "MarkviewPalette2Sign", { fg = "#eed49f" }) -- Yellow
+  vim.api.nvim_set_hl(0, "MarkviewPalette3Sign", { fg = "#c6a0f6" }) -- Mauve
+  vim.api.nvim_set_hl(0, "MarkviewPalette4Sign", { fg = "#a6da95" }) -- Green (Tip)
+  vim.api.nvim_set_hl(0, "MarkviewPalette5Sign", { fg = "#8aadf4" }) -- Blue (Note)
+  
+  vim.api.nvim_set_hl(0, "MarkviewPalette0Fg", { fg = "#cad3f5" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette1Fg", { fg = "#ed8796" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette2Fg", { fg = "#eed49f" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette3Fg", { fg = "#c6a0f6" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette4Fg", { fg = "#a6da95" })
+  vim.api.nvim_set_hl(0, "MarkviewPalette5Fg", { fg = "#8aadf4" })
+
+  -- 截图中的代码块背景 (深沉有质感)
+  vim.api.nvim_set_hl(0, "MarkviewCode", { bg = "#1e2030" })
+  vim.api.nvim_set_hl(0, "MarkviewInlineCode", { bg = "#363a4f", fg = "#cad3f5" })
+end
+
+set_markview_highlights()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = set_markview_highlights })
+
+safe_require('markview', function(mv)
+  local presets = require("markview.presets")
+  mv.setup({
+    -- 完全使用官方 Github 截图中的预设
+    headings = presets.headings.glow_labels,
+    markdown = {
+      list_items = {
+        marker_plus = { add_padding = false },
+        marker_minus = { add_padding = false },
+        marker_star = { add_padding = false },
+      },
+    },
+  })
+end)
