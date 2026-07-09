@@ -285,7 +285,6 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { underline = false, strikethr
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underline = false, strikethrough = true, sp = "LightGrey" })
 
 -- [Markdown Rendering]
--- [Markdown Rendering]
 -- 完全复原 markview.nvim 官方 GitHub 的极简高级感配色 (Catppuccin Macchiato 色系)
 local function set_markview_highlights()
   -- 清除任何可能干扰的丑陋全宽背景
