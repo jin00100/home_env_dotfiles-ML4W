@@ -37,6 +37,7 @@ hl.animation({ leaf = "windows", enabled = true, speed = 5, bezier = "overshot",
 hl.animation({ leaf = "windowsIn", enabled = true, speed = 5, bezier = "overshot", style = "popin 80%" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 4, bezier = "md3_accel", style = "popin 80%" })
 hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" })
+hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "linear", style = "loop" })
 hl.animation({ leaf = "fade", enabled = true, speed = 3, bezier = "md3_decel" })
 
 -- Commmented out alternatives from your legacy configuration:
