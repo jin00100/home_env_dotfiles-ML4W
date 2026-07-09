@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   programs.neovim = {
@@ -37,6 +37,10 @@
       lazygit-nvim      # Lazygit 통합
       nvim-osc52        # SSH 클립보드 (OSC 52) 지원
       
+      # Modern UI / Notification
+      noice-nvim
+      nvim-notify
+      
       # LSP & Completion
       nvim-lspconfig
       nvim-cmp
@@ -52,6 +56,12 @@
 
       # Markdown Rendering
       markview-nvim
+
+      # Smooth Cursor
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "smoothcursor-nvim";
+        src = inputs.smoothcursor;
+      })
     ];
 
     # 2. Lua 설정

@@ -2,6 +2,7 @@
 
 {
   home.packages = with pkgs; [
+
     # [LSP & Neovim Tools]
     tree-sitter
     nil

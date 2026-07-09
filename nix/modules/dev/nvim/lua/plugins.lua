@@ -332,3 +332,114 @@ safe_require('markview', function(mv)
     },
   })
 end)
+
+-- [物理惯性平滑光标: SmoothCursor]
+-- 当在 NeoVim 中上下移动光标时，会拉出一条带物理惯性的彩虹流星拖尾
+local function set_smoothcursor_highlights()
+  vim.api.nvim_set_hl(0, "SmoothCursor", { fg = "#cad3f5" })
+  vim.api.nvim_set_hl(0, "SmoothCursorRed", { fg = "#ed8796" })
+  vim.api.nvim_set_hl(0, "SmoothCursorOrange", { fg = "#f5a97f" })
+  vim.api.nvim_set_hl(0, "SmoothCursorYellow", { fg = "#eed49f" })
+  vim.api.nvim_set_hl(0, "SmoothCursorGreen", { fg = "#a6da95" })
+  vim.api.nvim_set_hl(0, "SmoothCursorAqua", { fg = "#8bd5ca" })
+  vim.api.nvim_set_hl(0, "SmoothCursorBlue", { fg = "#8aadf4" })
+  vim.api.nvim_set_hl(0, "SmoothCursorPurple", { fg = "#c6a0f6" })
+end
+
+set_smoothcursor_highlights()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = set_smoothcursor_highlights })
+
+safe_require('smoothcursor', function(sc)
+  sc.setup({
+    autostart = true,
+    cursor = "", -- 光标头部字符 (流星头)
+    texthl = "SmoothCursor",
+    linehl = nil,
+    type = "default", -- default, exp, turtle, wave
+    fancy = {
+      enable = true, -- 开启 Fancy 拖尾模式
+      head = { cursor = "", texthl = "SmoothCursor", linehl = nil },
+      body = {
+        { cursor = "•", texthl = "SmoothCursorRed" },
+        { cursor = "•", texthl = "SmoothCursorOrange" },
+        { cursor = "•", texthl = "SmoothCursorYellow" },
+        { cursor = "•", texthl = "SmoothCursorGreen" },
+        { cursor = "•", texthl = "SmoothCursorAqua" },
+        { cursor = "•", texthl = "SmoothCursorBlue" },
+        { cursor = "•", texthl = "SmoothCursorPurple" },
+      },
+      tail = { cursor = " ", texthl = "SmoothCursor" }
+    },
+    speed = 25, -- 速度 (数值越大移动越快，越小惯性越强，默认25)
+    intervals = 35, -- 更新频率
+    priority = 10,
+    timeout = 3000,
+    threshold = 3,
+    disable_float_on_trigger = true,
+    disabled_filetypes = { "help", "nofile", "prompt", "quickfix", "neo-tree" },
+  })
+end)
+
+-- [Modern 悬浮 UI: Noice.nvim]
+-- 提供极具现代感的浮动命令面板、搜索框、消息通知
+safe_require('notify', function(notify)
+  notify.setup({
+    background_colour = "#1e2030",
+    fps = 60,
+    render = "default",
+    timeout = 3000,
+  })
+  vim.notify = notify
+end)
+
+safe_require('noice', function(noice)
+  noice.setup({
+    lsp = {
+      -- override markdown rendering so that cmp and other plugins use Treesitter
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+        ["cmp.entry.get_documentation"] = true, 
+      },
+    },
+    -- you can enable a preset for easier configuration
+    presets = {
+      bottom_search = false, -- use a classic bottom cmdline for search
+      command_palette = true, -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages will be sent to a split
+      inc_rename = false, -- enables an input dialog for inc-rename.nvim
+      lsp_doc_border = true, -- add a border to hover docs and signature help
+    },
+    views = {
+      cmdline_popup = {
+        position = {
+          row = "30%",
+          col = "50%",
+        },
+        size = {
+          width = 60,
+          height = "auto",
+        },
+      },
+      popupmenu = {
+        relative = "editor",
+        position = {
+          row = "40%",
+          col = "50%",
+        },
+        size = {
+          width = 60,
+          height = 10,
+        },
+        border = {
+          style = "rounded",
+          padding = { 0, 1 },
+        },
+        win_options = {
+          winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+        },
+      },
+    },
+  })
+end)
+

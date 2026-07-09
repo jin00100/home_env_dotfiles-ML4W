@@ -6,7 +6,8 @@ hl.config({
         "noshadow, class:^(fcitx5)$",
         "opacity 0.65 0.65, class:^(google-chrome)$",
         "opacity 0.65 0.65, class:^(Google-chrome)$",
-        "opacity 0.85 0.85, class:^(org.gnome.Nautilus)$"
+        "opacity 0.85 0.85, class:^(org.gnome.Nautilus)$",
+        "opacity 0.65 0.65, class:^(antigravity-ide)$"
     },
     layerrule = {
         "noanim, fcitx",
