@@ -79,7 +79,7 @@ fi
 echo -e "${YELLOW}✨ Applying all dotfiles configurations using absolute Nix path... This may take a while.${NC}"
 
 # Apply Home Manager configuration
-PATH="/nix/var/nix/profiles/default/bin:$PATH" "$NIX_BIN_PATH" --extra-experimental-features "nix-command flakes" run github:nix-community/home-manager -- switch --flake . --impure -b backup
+PATH="/nix/var/nix/profiles/default/bin:$PATH" "$NIX_BIN_PATH" --extra-experimental-features "nix-command flakes" run nixpkgs#home-manager -- switch --flake . --impure -b backup
 
 echo -e "${GREEN}✅ Home Manager configuration applied successfully!${NC}"
 

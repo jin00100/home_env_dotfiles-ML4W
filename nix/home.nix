@@ -64,15 +64,16 @@
     tocb = "xclip -selection clipboard";
 
     # Home Manager alias for fast rebuilds.
-    # Uses the expected path for the new DevOps modular repository
-    hms = "nix run home-manager/master -- switch --flake ~/home_env_dotfiles-ML4W/#${username} --impure -b backup";
+    # Uses the local home-manager binary directly to bypass nix run network overhead, making updates sub-second.
+    hms = "home-manager switch --flake ~/home_env_dotfiles-ML4W/#${username} --impure -b backup";
     
     # Zellij aliases
     zj = "zellij";
     zj_shortcuts = ''echo -e "\033[1;34m=== Zellij Custom Shortcuts (Tmux Style) ===\033[0m" && echo -e "\033[1;33m[ Quick Actions (Alt Key) ]\033[0m" && echo "  Alt + n       : New Pane (Right)" && echo "  Alt + h/j/k/l : Move focus (Left/Down/Up/Right)" && echo "  Alt + i/o     : Move Tab (Prev/Next)" && echo "  Alt + =/-     : Resize Pane (Increase/Decrease)" && echo -e "\033[1;33m[ Core Modes (Prefix) ]\033[0m" && echo "  Ctrl + g      : LOCKED Mode (Essential for NeoVim!)" && echo "  Ctrl + s      : SCROLL/COPY Mode (Like tmux prefix + [)" && echo "                  -> v: Select, y/Enter: Copy" && echo "  Ctrl + p      : PANE Mode (Split, Resize, etc.)" && echo "  Ctrl + t      : TAB Mode (New, Rename, etc.)" && echo "  Ctrl + n      : RESIZE Mode" && echo "  Ctrl + o      : SESSION Mode" && echo "  Ctrl + q      : QUIT Zellij" && echo -e "\033[1;32mTip: Bottom bar changes based on these modes!\033[0m" '';
 
     # Nix cleanup alias
-    nix-clean = "nix-env --delete-generations old && nix-store --gc";
+    # Cleans home-manager history, nix-env history, and triggers Nix Store garbage collection
+    nix-clean = "home-manager expire-generations \"-7 days\" && nix-env --delete-generations old && nix-store --gc";
   };
 
   home.sessionVariables = {
