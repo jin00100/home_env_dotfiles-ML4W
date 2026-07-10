@@ -14,6 +14,9 @@ APP_NAME="Waypaper"
 NOTIFICATION_ICON="preferences-desktop-wallpaper-symbolic"
 
 sec=$(cat ~/.config/ml4w/settings/wallpaper-automation)
+if [ -z "$sec" ] || ! [[ "$sec" =~ ^[0-9]+$ ]]; then
+    sec=3600
+fi
 _setWallpaperRandomly() {
     while true; do
         $HOME/.config/ml4w/scripts/ml4w-wallpaper --random
