@@ -24,6 +24,4 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("fcitx5 -d --replace")
     -- Start autostart cleanup
     hl.exec_cmd("~/.config/hypr/scripts/cleanup.sh")
-    -- Start Chameleon Engine (Wallpaper Automation)
-    hl.exec_cmd("sh -c 'rm -f ~/.cache/ml4w/hyprland-dotfiles/wallpaper-automation && ~/.config/ml4w/scripts/ml4w-wallpaper-automation'")
 end)

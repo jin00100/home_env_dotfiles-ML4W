@@ -15,10 +15,6 @@ APP_NAME="System"
 NOTIFICATION_ICON="joystick"
 
 if [ -f $HOME/.config/ml4w/settings/gamemode-enabled ]; then
-  if [ -f $ml4w_cache_folder/restart-wpauto ]; then
-    rm $ml4w_cache_folder/restart-wpauto
-    $HOME/.config/ml4w/scripts/ml4w-wallpaper-automation &
-  fi
   hyprctl reload
   rm $HOME/.config/ml4w/settings/gamemode-enabled
   notify_user --a "${APP_NAME}" \
@@ -26,10 +22,6 @@ if [ -f $HOME/.config/ml4w/settings/gamemode-enabled ]; then
             --s "Gamemode deactivated" \
             --m "Animations and blur are now enabled."
 else
-  if [ -f $ml4w_cache_folder/wallpaper-automation ]; then
-    touch $ml4w_cache_folder/restart-wpauto
-    $HOME/.config/ml4w/scripts/ml4w-wallpaper-automation
-  fi
   hyprctl eval "activate_gamemode()"
   touch $HOME/.config/ml4w/settings/gamemode-enabled
   notify_user --a "${APP_NAME}" \

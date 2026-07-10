@@ -61,4 +61,3 @@ fi
 # Start wayvnc VNC Server
 systemctl --user restart wayvnc
 info "wayvnc VNC service restarted via systemd"
-
