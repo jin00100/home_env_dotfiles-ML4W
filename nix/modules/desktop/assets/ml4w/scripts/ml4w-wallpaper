@@ -99,7 +99,7 @@ while [[ $# -gt 0 ]]; do
 
             if [[ -d "$RANDOM_FOLDER" ]]; then
                 # Select a random image from the resolved folder
-                IMAGE_PATH=$(find "$RANDOM_FOLDER" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | shuf -n 1)
+                IMAGE_PATH=$(find "$RANDOM_FOLDER" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" -o -iname "*.gif" \) | shuf -n 1)
                 
                 if [[ -z "$IMAGE_PATH" ]]; then
                     error "No valid images (jpg, jpeg, png) found in -> $RANDOM_FOLDER"
