@@ -1,0 +1,48 @@
+{
+    // Pill Style Custom Theme
+    "layer": "top",
+    "height": 56, // Explicitly lock Waybar height to 56px (the minimum required by the active modules)
+    "margin-top": 10,
+    "margin-bottom": 0,
+    "margin-left": 14,
+    "margin-right": 14,
+    "spacing": 0,
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+    // Modules Left
+    "modules-left": [
+        "hyprland/workspaces#pill",
+        "custom/empty"
+    ],
+    // Modules Center
+    "modules-center": [
+        "clock",
+        "custom/empty"
+    ],
+    // Modules Right    
+    "modules-right": [
+        "idle_inhibitor",
+        "network",
+        "custom/updates"
+    ],
+    "clock": {
+        "format": "{:%H:%M}"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "hyprland/workspaces#pill": {
+        "format": "", // Set format to empty to completely prevent text output from stretching the buttons
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    }
+}

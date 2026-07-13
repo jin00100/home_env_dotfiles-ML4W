@@ -33,20 +33,30 @@ if [ ! -f $CACHE_FILE ]; then
     info "Cache file created"
 fi
 
-~/.config/ml4w/scripts/ml4w-wallpaper "$(cat $CACHE_FILE)" &
+WALLPAPER_APP="quickshell"
+if [ -f $HOME/.config/ml4w/settings/wallpaper-app ]; then
+    WALLPAPER_APP=$(cat $HOME/.config/ml4w/settings/wallpaper-app)
+fi
+
+if [ "$WALLPAPER_APP" == "quickshell" ]; then
+    ~/.config/ml4w/scripts/ml4w-wallpaper "$(cat $CACHE_FILE)" &
+fi
 
 # Start Quickshell
 killall qs
 sleep 0.5
-qs & disown
+nohup qs > /dev/null 2>&1 &
+disown
 sleep 0.5
 
 # Start ML4W Settings App
-PROFILE="com.ml4w.dotfiles" qs -p $HOME/.local/share/ml4w-dotfiles-settings/quickshell & disown
+nohup env PROFILE="com.ml4w.dotfiles" qs -p $HOME/.local/share/ml4w-dotfiles-settings/quickshell > /dev/null 2>&1 &
+disown
 info "ML4W Dotfiles Settings started"
 
 # Start Quickshell Overview
-qs -p $HOME/.config/quickshell/overview & disown
+nohup qs -p $HOME/.config/quickshell/overview > /dev/null 2>&1 &
+disown
 info "Quickshell Overview started"
 
 # Start ML4W Welcome App

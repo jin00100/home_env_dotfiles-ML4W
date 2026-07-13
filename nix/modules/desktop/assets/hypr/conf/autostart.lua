@@ -22,6 +22,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("wl-paste --watch cliphist store")
     -- Start fcitx5 input method
     hl.exec_cmd("fcitx5 -d --replace")
+
     -- Start autostart cleanup
     hl.exec_cmd("~/.config/hypr/scripts/cleanup.sh")
     -- Start Chameleon Engine (Wallpaper Automation)

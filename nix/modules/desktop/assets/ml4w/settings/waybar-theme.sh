@@ -1,1 +1,1 @@
-/ml4w-glass-center;/ml4w-glass-center/default
+/ml4w-transparent-centered;/ml4w-transparent-centered/default

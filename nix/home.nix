@@ -15,6 +15,7 @@
     ./modules/desktop/hyprland.nix
     ./modules/desktop/theme.nix
     ./modules/desktop/wayvnc.nix
+    ./modules/desktop/daemons.nix
 
     # --- Ported Shell Environment ---
     ./modules/shell/shell.nix
@@ -74,6 +75,9 @@
     # Nix cleanup alias
     # Cleans home-manager history, nix-env history, and triggers Nix Store garbage collection
     nix-clean = "home-manager expire-generations \"-7 days\" && nix-env --delete-generations old && nix-store --gc";
+
+    # Reboot directly into Linux
+    reboot-linux = "sudo efibootmgr -n 0000 && sudo reboot";
   };
 
   home.sessionVariables = {
@@ -81,7 +85,7 @@
     # QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     # SDL_IM_MODULE = "fcitx";
-    # GLFW_IM_MODULE = "ibus";
+    GLFW_IM_MODULE = "ibus";
     QT_QUICK_BACKEND = "software";
   };
 

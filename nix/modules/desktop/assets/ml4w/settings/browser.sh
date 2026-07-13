@@ -1,1 +1,1 @@
-google-chrome-stable
+google-chrome-stable --ozone-platform-hint=auto

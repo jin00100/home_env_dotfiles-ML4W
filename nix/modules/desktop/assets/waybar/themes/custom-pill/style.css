@@ -1,0 +1,103 @@
+/* Custom Pill Theme for ML4W */
+
+/* Base transparency and text */
+* {
+    font-family: "FiraCode Nerd Font", "Fira Sans", sans-serif;
+    font-size: 14px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: #cdd6f4;
+}
+
+/* Make the modules groups (left, center, right) look like separate pills */
+.modules-left {
+    background-color: #11111b; /* Dark background */
+    border-radius: 12px;
+    margin: 12px 5px; /* Squeezes the container height to exactly 32px (56 - 12 - 12) */
+    padding: 0px 8px; /* No vertical padding, only horizontal */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.modules-center, .modules-right {
+    margin: 8px 5px;
+}
+
+/* High-specificity selector to override GTK theme button defaults */
+window#waybar .modules-left #workspaces button {
+    padding: 0;
+    margin: 12px 4px; /* 12px vertical margin forces the button height to be exactly 8px (32 - 12 - 12) */
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 10px; /* Absolute pixels for a perfect circle */
+    background-color: #8c90ad; /* Greyish blue inactive */
+    color: transparent;
+    font-size: 1px; /* Avoid 0px to prevent parser fallback, 1px makes text taking up 0 width */
+    background-image: none;
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Target the label widget inside the button to prevent it from stretching the button height */
+window#waybar .modules-left #workspaces button label {
+    font-size: 1px;
+    min-height: 0;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    color: transparent;
+}
+
+window#waybar .modules-left #workspaces button.active {
+    background-color: #ffffff; /* White active */
+    min-width: 24px;
+    min-height: 8px;
+    border-radius: 10px; /* Absolute pixels for a perfect pill */
+}
+
+window#waybar .modules-left #workspaces button:nth-child(n+4) {
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    min-height: 0;
+    border: none;
+    opacity: 0;
+    background: transparent;
+    color: transparent;
+}
+
+window#waybar .modules-left #workspaces button:hover {
+    background-color: #a6abc7;
+}
+
+/* General Modules */
+#clock, #pulseaudio, #bluetooth, #network, #battery, #tray, #custom-updates, #custom-exit, #custom-ml4w-welcome, #idle_inhibitor {
+    padding: 2px 12px;
+    margin: 10px 4px; /* Add vertical margins to prevent stretching to 56px height, making them elegant 36px high pills */
+    border-radius: 18px; /* Matches half of the 36px height for a perfect pill shape */
+    background-color: #11111b;
+    color: #cdd6f4;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover effects */
+#clock:hover, #pulseaudio:hover, #bluetooth:hover, #network:hover, #battery:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Accent colors for specific states */
+#battery.charging { color: #a6e3a1; }
+#battery.warning:not(.charging) { color: #f9e2af; }
+#battery.critical:not(.charging) { color: #f38ba8; animation-name: blink; animation-duration: 0.5s; animation-timing-function: linear; animation-iteration-count: infinite; animation-direction: alternate; }
+
+@keyframes blink {
+    to {
+        background-color: #f38ba8;
+        color: #1e1e2e;
+    }
+}

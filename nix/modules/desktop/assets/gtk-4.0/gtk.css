@@ -1,1 +1,5 @@
-@import 'colors.css';
+/**
+ * GTK 4 reads the theme configured by gtk-theme-name, but ignores it.
+ * It does however respect user CSS, so import the theme from here.
+**/
+@import url("file:///nix/store/g66l0qanmvk89snlap532ifmy7n53j5b-ayu-theme-gtk-unstable-2017-05-12/share/themes/Ayu-Dark/gtk-4.0/gtk.css");

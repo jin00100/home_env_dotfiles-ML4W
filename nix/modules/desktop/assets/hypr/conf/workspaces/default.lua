@@ -1,0 +1,4 @@
+hl.config({
+    workspace = {
+    }
+})
