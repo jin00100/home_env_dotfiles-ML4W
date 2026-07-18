@@ -9,7 +9,7 @@
     ast-grep
     lua51Packages.jsregexp
     gopls
-    go
+
     clang-tools
     yaml-language-server
     bash-language-server
