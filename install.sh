@@ -44,19 +44,11 @@ else
     echo -e "${GREEN}✅ Nix is already installed.${NC}"
 fi
 
-# --- Section 2: Download Heavy Assets ---
-echo -e "${YELLOW}🖼️ Downloading ML4W Official Wallpapers...${NC}"
+# --- Section 2: Prepare Wallpapers ---
+echo -e "${YELLOW}🖼️ Setting up ML4W Wallpapers...${NC}"
 WALLPAPER_DIR="$HOME/.config/ml4w/wallpapers"
 mkdir -p "$WALLPAPER_DIR"
-if [ ! -d "$WALLPAPER_DIR/.git" ]; then
-    echo -e "${YELLOW}Cloning Stephan Raabe's wallpaper repository...${NC}"
-    git clone --depth 1 https://gitlab.com/stephan-raabe/wallpaper.git "$WALLPAPER_DIR/tmp_repo"
-    cp -r "$WALLPAPER_DIR/tmp_repo/"* "$WALLPAPER_DIR/"
-    rm -rf "$WALLPAPER_DIR/tmp_repo"
-    echo -e "${GREEN}✅ Wallpapers downloaded.${NC}"
-else
-    echo -e "${GREEN}✅ Wallpapers already exist.${NC}"
-fi
+echo -e "${GREEN}✅ Wallpaper directory ready. (Using your existing wallpapers)${NC}"
 
 # --- Section 3: Home Manager Deployment ---
 echo -e "${YELLOW}⚙️ Preparing to run Home Manager...${NC}"
