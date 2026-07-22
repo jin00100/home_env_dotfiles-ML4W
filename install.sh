@@ -48,7 +48,15 @@ fi
 echo -e "${YELLOW}🖼️ Setting up ML4W Wallpapers...${NC}"
 WALLPAPER_DIR="$HOME/.config/ml4w/wallpapers"
 mkdir -p "$WALLPAPER_DIR"
-echo -e "${GREEN}✅ Wallpaper directory ready. (Using your existing wallpapers)${NC}"
+
+# Copy wallpapers from dotfiles repo if they exist
+REPO_WALLPAPERS="$(dirname "$0")/wallpapers"
+if [ -d "$REPO_WALLPAPERS" ]; then
+    cp -r "$REPO_WALLPAPERS/"* "$WALLPAPER_DIR/" 2>/dev/null || true
+    echo -e "${GREEN}✅ Wallpapers synced from your dotfiles repository.${NC}"
+else
+    echo -e "${GREEN}✅ Wallpaper directory ready. (Using your existing wallpapers)${NC}"
+fi
 
 # --- Section 3: Home Manager Deployment ---
 echo -e "${YELLOW}⚙️ Preparing to run Home Manager...${NC}"
