@@ -10,6 +10,26 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.g.mapleader = " "         
 vim.opt.clipboard = "unnamedplus"
+
+-- [OSC52 Clipboard Provider for SSH/Zellij]
+local function copy(lines, _)
+  require('osc52').copy(table.concat(lines, '\n'))
+end
+local function paste()
+  return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+end
+vim.g.clipboard = {
+  name = 'osc52',
+  copy = {
+    ['+'] = copy,
+    ['*'] = copy,
+  },
+  paste = {
+    ['+'] = paste,
+    ['*'] = paste,
+  },
+}
+
 vim.opt.termguicolors = true
 vim.opt.laststatus = 3        -- 전역 상태줄 (Global Statusline)
 vim.opt.cmdheight = 1         -- 커맨드 라인 높이 유지
