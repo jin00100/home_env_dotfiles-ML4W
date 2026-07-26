@@ -248,7 +248,7 @@ local function get_server_opts(name)
         },
         schemas = {
           kubernetes = { "k8s/**/*.yaml", "k8s/**/*.yml", "*k8s*.yaml", "*k8s*.yml" },
-          ["file:///home/nxtp-sj/.config/nvim/gitlab-ci.json"] = { "*gitlab-ci*.yml", ".gitlab-ci.yml" },
+          ["file:///home/nxtp-sj/.config/nvim/gitlab-ci.json"] = { "*gitlab-ci*.yml", "**/.gitlab-ci.yml", ".gitlab-ci.yml" },
         },
       },
     }
