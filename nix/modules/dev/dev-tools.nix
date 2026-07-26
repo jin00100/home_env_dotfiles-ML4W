@@ -8,7 +8,7 @@
     nil
     ast-grep
     lua51Packages.jsregexp
-    gopls
+
 
     clang-tools
     yaml-language-server
