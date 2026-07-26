@@ -6,7 +6,7 @@
 -- Advanced configuration for Hyprland
 
 -- Setup Nix environment and software rendering for all spawned processes
-local HOME = os.getenv("HOME") or "/home/nxtp-sj"
+local HOME = os.getenv("HOME") or ("/home/" .. (os.getenv("USER") or "user"))
 local current_path = os.getenv("PATH") or ""
 hl.env("PATH", HOME .. "/.nix-profile/bin:/nix/var/nix/profiles/default/bin:" .. current_path)
 hl.env("QT_QUICK_BACKEND", "software")
