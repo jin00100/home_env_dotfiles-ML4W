@@ -41,6 +41,12 @@
     style.name = "adwaita-dark";
   };
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
