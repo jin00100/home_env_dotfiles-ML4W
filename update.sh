@@ -12,6 +12,6 @@ echo -e "${BLUE}🚀 Fetching the latest global tool versions from Nixpkgs (nix 
 nix flake update
 
 echo -e "${BLUE}🔄 Applying the latest GUI versions and hot-reloading configurations...${NC}"
-home-manager switch --flake ~/home_env_dotfiles-ML4W/#default --impure -b backup
+home-manager switch --flake ~/home_env_dotfiles-ML4W/#$USER --impure -b backup
 
 echo -e "${GREEN}🎉 Upgrade complete! All GUI tools and ML4W configurations are now up-to-date!${NC}"
