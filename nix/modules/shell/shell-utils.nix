@@ -37,6 +37,8 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    # Let Atuin own Ctrl-R
+    historyWidget.command = "";
   };
 
   # 6. Direnv
