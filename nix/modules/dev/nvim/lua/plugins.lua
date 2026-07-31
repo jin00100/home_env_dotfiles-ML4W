@@ -228,12 +228,24 @@ vim.api.nvim_create_autocmd("BufReadCmd", {
   end,
 })
 
+-- [Helm Filetype Detection (高端玩家版)]
+vim.filetype.add({
+  extension = {
+    yaml = function(path, bufnr)
+      if string.match(path, "templates/.*%.ya?ml$") or vim.fs.find("Chart.yaml", { path = vim.fs.dirname(path), upward = true })[1] then
+        return "helm"
+      end
+      return "yaml"
+    end
+  }
+})
+
 -- [LSP Config (Neovim 0.11+ Modern Way)]
 local capabilities = {}
 local cmp_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if cmp_lsp_ok then capabilities = cmp_nvim_lsp.default_capabilities() end
 
-local servers = { 'gopls', 'nil_ls', 'pyright', 'bashls', 'yamlls', 'taplo', 'jsonls', 'cmake', 'autotools_ls' }
+local servers = { 'gopls', 'nil_ls', 'pyright', 'bashls', 'yamlls', 'taplo', 'jsonls', 'cmake', 'autotools_ls', 'helm_ls' }
 
 local function get_server_opts(name)
   local opts = { capabilities = capabilities }
