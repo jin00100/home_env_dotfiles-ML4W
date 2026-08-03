@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    ayu-theme-gtk
+    adw-gtk3
     papirus-icon-theme
     bibata-cursors
   ];
@@ -10,8 +10,8 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Ayu-Dark";
-      package = pkgs.ayu-theme-gtk;
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
     };
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
@@ -19,7 +19,7 @@
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
     };
-    gtk4.theme = config.gtk.theme;
+    gtk4.theme = null;
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
