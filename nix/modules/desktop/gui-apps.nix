@@ -32,6 +32,5 @@
     imagemagick
     quickshell
     grimblast
-    wayvnc
   ];
 }

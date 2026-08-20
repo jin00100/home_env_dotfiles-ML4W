@@ -14,7 +14,6 @@
     ./modules/desktop/gui-apps.nix
     ./modules/desktop/hyprland.nix
     ./modules/desktop/theme.nix
-    ./modules/desktop/wayvnc.nix
     ./modules/desktop/daemons.nix
 
     # --- Ported Shell Environment ---
@@ -81,8 +80,8 @@
   };
 
   home.sessionVariables = {
-    # GTK_IM_MODULE = "fcitx";
-    # QT_IM_MODULE = "fcitx";
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     # SDL_IM_MODULE = "fcitx";
     GLFW_IM_MODULE = "ibus";

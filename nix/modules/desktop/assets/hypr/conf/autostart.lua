@@ -21,7 +21,7 @@ hl.on("hyprland.start", function ()
     -- Load cliphist history
     hl.exec_cmd("wl-paste --watch cliphist store")
     -- Start fcitx5 input method
-    hl.exec_cmd("fcitx5 -d --replace")
+    hl.exec_cmd("fcitx5 -d --replace > /dev/null 2>&1")
 
     -- Start autostart cleanup
     hl.exec_cmd("~/.config/hypr/scripts/cleanup.sh")
