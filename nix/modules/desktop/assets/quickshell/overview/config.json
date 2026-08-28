@@ -1,6 +1,6 @@
 {
   "appearance": {
-    "colorSource": "matugen",
+    "colorSource": "default",
     "caelestia": {
       "autoRefresh": true,
       "refreshInterval": 2000,
@@ -49,7 +49,12 @@
     "hideEmptyRows": true,
     "workspaceSpacing": 5,
     "backgroundPadding": 10,
-    "workspaceNumberBaseSize": 250
+    "workspaceNumberBaseSize": 250,
+    "effects": {
+      "panelOpacity": 0.76,
+      "workspaceOpacity": 0.72,
+      "windowOverlayOpacity": 0.10
+    }
   },
   "position": {
     "topMargin": 100
