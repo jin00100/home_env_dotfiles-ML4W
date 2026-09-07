@@ -130,6 +130,13 @@ The repository acts as the single source of truth. Home Manager maps files into 
 
 ---
 
+The default terminal is Kitty, launched with `nixGL kitty` through
+`~/.config/ml4w/settings/terminal.sh`. `Super + Enter` uses this setting.
+Keep the setting as a single command
+line because ML4W utilities read it to launch terminal applications.
+Home Manager preserves existing `ml4w/settings`, so existing installations
+must also update their live `terminal.sh` when changing this repository default.
+
 ## 📁 Repository Structure
 
 ```text

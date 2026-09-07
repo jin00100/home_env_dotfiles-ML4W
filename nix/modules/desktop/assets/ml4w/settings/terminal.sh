@@ -1,1 +1,1 @@
-gnome-terminal
+nixGL kitty
