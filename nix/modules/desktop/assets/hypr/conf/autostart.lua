@@ -3,8 +3,8 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
     -- Start listeners
     hl.exec_cmd("~/.config/ml4w/listeners.sh --startall")
-    -- Start polkit daemon
-    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    -- Ubuntu polkit-gnome needs X11; avoid loading Nix GTK modules into it.
+    hl.exec_cmd("env -u GDK_PIXBUF_MODULE_FILE -u GIO_EXTRA_MODULES GDK_BACKEND=x11 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
     -- Restore wallpaper
     hl.exec_cmd("~/.config/ml4w/scripts/ml4w-wallpaper-app --restore")
     -- Environment for xdg-desktop-portal-hyprland

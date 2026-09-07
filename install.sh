@@ -24,7 +24,7 @@ if [ -f /etc/debian_version ]; then
         sudo add-apt-repository -y ppa:cppiber/hyprland
     fi
     sudo apt-get update
-    sudo apt-get install -y hyprland xdg-desktop-portal-hyprland hyprlock hypridle fcitx5 fcitx5-chinese-addons fcitx5-config-qt
+    sudo apt-get install -y hyprland xdg-desktop-portal-hyprland hyprlock hypridle fcitx5 fcitx5-chinese-addons fcitx5-config-qt policykit-1-gnome
     echo -e "${GREEN}✅ System dependencies installed.${NC}"
 fi
 
