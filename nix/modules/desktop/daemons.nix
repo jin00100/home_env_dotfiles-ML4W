@@ -46,5 +46,20 @@
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
+
+    fcitx5 = {
+      Unit = {
+        Description = "Fcitx5 input method";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "/usr/bin/fcitx5 --replace";
+        Restart = "on-failure";
+        RestartSec = 2;
+      };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
+    };
   };
 }

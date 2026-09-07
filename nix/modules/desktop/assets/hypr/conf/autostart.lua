@@ -7,8 +7,9 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("env -u GDK_PIXBUF_MODULE_FILE -u GIO_EXTRA_MODULES GDK_BACKEND=x11 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
     -- Restore wallpaper
     hl.exec_cmd("~/.config/ml4w/scripts/ml4w-wallpaper-app --restore")
-    -- Environment for xdg-desktop-portal-hyprland
-    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    -- Give user services the current Wayland session before starting them.
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP")
+    hl.exec_cmd("systemctl --user restart fcitx5.service")
     hl.exec_cmd("systemctl --user restart xdg-desktop-portal-hyprland xdg-desktop-portal sunshine")
     -- Autostart scripts
     hl.exec_cmd("~/.config/ml4w/scripts/ml4w-autostart")
@@ -20,9 +21,6 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("hypridle")
     -- Load cliphist history
     hl.exec_cmd("wl-paste --watch cliphist store")
-    -- Start fcitx5 input method
-    hl.exec_cmd("fcitx5 -d --replace > /dev/null 2>&1")
-
     -- Start autostart cleanup
     hl.exec_cmd("~/.config/hypr/scripts/cleanup.sh")
     -- Start Chameleon Engine (Wallpaper Automation)
