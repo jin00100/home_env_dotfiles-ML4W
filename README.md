@@ -32,6 +32,13 @@ A personal, modular **Home Manager (Nix Flake)** configuration tailored for **Ar
 
 ## ⚠️ Important Notes
 
+> [!NOTE]
+> **A "Rite of Passage" for Pure Arch + Dedicated NVIDIA + Tiling WM Users**:
+> Demystifying the relationship between GPU drivers, kernel modules, display managers, and the desktop session is a necessary milestone:
+> - **User-Space vs. System-Level**: Dotfiles (Home Manager) only manage user-space files (`$HOME`). They cannot automate host-level tasks such as installing kernel modules or enabling root systemd services.
+> - **NVIDIA & Early KMS**: Wayland compositors require proper modesetting. Install `nvidia-open` (or `nvidia-dkms`), add `MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)` to `/etc/mkinitcpio.conf`, and append `nvidia_drm.modeset=1` to your kernel cmdline.
+> - **Display Manager vs. Screen Locker**: Arch does not include a graphical display manager out of the box. An external Display Manager (e.g. SDDM) handles boot authentication to launch the Hyprland session, while `hyprlock` locks an already-running session. To boot straight into a polished `hyprlock` screen, enable autologin in SDDM and trigger `hyprlock` upon Hyprland startup.
+
 1. **Zellij**: Configured but not forced on startup. Launch manually with `zellij` or `zj`. It automatically selects lightweight/remote configurations in SSH or container sessions.
 2. **Kubernetes & Helm Shortcuts**: `k` and `h` are aliased to `kubectl` and `helm`. They are not pre-installed by the flake; Zsh generates and caches completions only if the binaries exist on your machine.
 3. **Nushell Completions**: Configured with Carapace integration. Ensure `carapace` is in your `PATH` if using Nushell.
