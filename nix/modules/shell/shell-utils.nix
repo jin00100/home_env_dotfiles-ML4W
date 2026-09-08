@@ -1,14 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.file.".config/starship-ssh.toml".source = ./starship-ssh.toml;
-
-  # 1. Starship Prompt
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = lib.importTOML ./starship.toml;
-  };
+  # 1. Starship Prompt (configs stored in assets/ml4w/starship to avoid overwriting iNiR Material You theme)
+  home.packages = with pkgs; [ starship ];
 
   # 2. Eza (ls alternative)
   programs.eza = {

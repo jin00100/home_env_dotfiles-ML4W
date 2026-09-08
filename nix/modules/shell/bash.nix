@@ -4,7 +4,20 @@
   programs.bash = {
     enable = true;
     initExtra = ''
-      ${builtins.readFile ./shell-common.sh}
+      # iNiR (Niri) session isolation: keep original Fish shell & wallpaper colors
+      if [[ "$XDG_CURRENT_DESKTOP" == "niri" ]]; then
+        if [ -f "$HOME/.local/state/quickshell/user/generated/terminal/sequences.txt" ]; then
+          command cat "$HOME/.local/state/quickshell/user/generated/terminal/sequences.txt" 2>/dev/null
+        fi
+        if [[ $- == *i* ]] && [[ -z "$IN_FISH" ]] && command -v fish &>/dev/null; then
+          export IN_FISH=1
+          export SHELL=$(which fish)
+          exec fish -l
+        fi
+        return 0 2>/dev/null || exit 0
+      fi
+
+      '' + builtins.readFile ./shell-common.sh + ''
       
       # If this is an interactive bash shell, drop directly into zsh
       if [[ $- == *i* ]]; then

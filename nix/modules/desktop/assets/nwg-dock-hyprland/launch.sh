@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# -----------------------------------------------------
+# Guard: nwg-dock-hyprland is exclusively for Hyprland
+# -----------------------------------------------------
+if [ "${XDG_CURRENT_DESKTOP,,}" != "hyprland" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    exit 0
+fi
+
 #    ___           __
 #   / _ \___  ____/ /__
 #  / // / _ \/ __/  '_/

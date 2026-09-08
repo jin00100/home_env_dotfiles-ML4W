@@ -33,8 +33,10 @@
         bindkey "^H" backward-delete-char
       fi
 
-      # [Welcome Message]
-      if [[ $- == *i* ]] && command -v welcome-msg &>/dev/null; then welcome-msg; fi
+      # [Starship Prompt]
+      if [[ $TERM != "dumb" ]] && command -v starship &>/dev/null; then
+        eval "$(starship init zsh)"
+      fi
 
       # [External Tools (fnm)]
       if command -v fnm &>/dev/null; then eval "$(fnm env --use-on-cd --shell zsh)"; fi

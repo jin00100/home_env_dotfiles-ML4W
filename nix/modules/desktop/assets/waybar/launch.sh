@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# -----------------------------------------------------
+# Guard: Waybar is exclusively for Hyprland session
+# -----------------------------------------------------
+if [ "${XDG_CURRENT_DESKTOP,,}" != "hyprland" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    exit 0
+fi
+
 #                    __
 #  _    _____ ___ __/ /  ___ _____
 # | |/|/ / _ `/ // / _ \/ _ `/ __/

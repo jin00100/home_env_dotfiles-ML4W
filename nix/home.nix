@@ -84,8 +84,6 @@
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     # SDL_IM_MODULE = "fcitx";
-    GLFW_IM_MODULE = "ibus";
-    QT_QUICK_BACKEND = "software";
   };
 
   programs.home-manager.enable = true;

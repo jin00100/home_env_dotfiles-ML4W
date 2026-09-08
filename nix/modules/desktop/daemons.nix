@@ -9,8 +9,7 @@
       };
       Service = {
         ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
-        Environment = "QT_QUICK_BACKEND=software";
-        ExecStart = "%h/.nix-profile/bin/qs";
+        ExecStart = "/usr/bin/qs";
         Restart = "always";
         RestartSec = 2;
       };
@@ -24,8 +23,7 @@
       };
       Service = {
         ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
-        Environment = "QT_QUICK_BACKEND=software";
-        ExecStart = "%h/.nix-profile/bin/qs -p %h/.config/quickshell/overview";
+        ExecStart = "/usr/bin/qs -p %h/.config/quickshell/overview";
         Restart = "always";
         RestartSec = 2;
       };
@@ -38,12 +36,11 @@
         PartOf = [ "graphical-session.target" ];
       };
       Service = {
-        ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
+        ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ] && [ -d \"$HOME/.local/share/ml4w-dotfiles-settings/quickshell\" ]'";
         Environment = [
-          "QT_QUICK_BACKEND=software"
           "PROFILE=com.ml4w.dotfiles"
         ];
-        ExecStart = "%h/.nix-profile/bin/qs -p %h/.local/share/ml4w-dotfiles-settings/quickshell";
+        ExecStart = "/usr/bin/qs -p %h/.local/share/ml4w-dotfiles-settings/quickshell";
         Restart = "always";
         RestartSec = 2;
       };

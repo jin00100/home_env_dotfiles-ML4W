@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
+# -----------------------------------------------------
+# Guard: ml4w-autostart is exclusively for Hyprland
+# -----------------------------------------------------
+if [ "${XDG_CURRENT_DESKTOP,,}" != "hyprland" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    exit 0
+fi
+
 if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
     . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
 elif [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
     . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
-export QT_QUICK_BACKEND=software
 
 # Default variables
 CACHE_FOLDER="$HOME/.cache/ml4w/hyprland-dotfiles"
@@ -23,51 +29,57 @@ warn() { echo -e "${YELLOW}[WARN]${NC} $1" >&2; }
 error() { echo -e "${RED}[ERROR]${NC} $1" >&2; }
 
 # Ensure that cache folder exists
-mkdir -p $HOME/.cache
+mkdir -p "$HOME/.cache"
 
 # Set Wallpaper
-mkdir -p $CACHE_FOLDER
-if [ ! -f $CACHE_FILE ]; then
-    touch $CACHE_FILE
+mkdir -p "$CACHE_FOLDER"
+if [ ! -f "$CACHE_FILE" ]; then
+    touch "$CACHE_FILE"
     echo "$DEFAULT_WALLPAPER" > "$CACHE_FILE"
     info "Cache file created"
 fi
 
 WALLPAPER_APP="quickshell"
-if [ -f $HOME/.config/ml4w/settings/wallpaper-app ]; then
-    WALLPAPER_APP=$(cat $HOME/.config/ml4w/settings/wallpaper-app)
+if [ -f "$HOME/.config/ml4w/settings/wallpaper-app" ]; then
+    WALLPAPER_APP=$(cat "$HOME/.config/ml4w/settings/wallpaper-app")
 fi
 
 if [ "$WALLPAPER_APP" == "quickshell" ]; then
-    ~/.config/ml4w/scripts/ml4w-wallpaper "$(cat $CACHE_FILE)" &
+    ~/.config/ml4w/scripts/ml4w-wallpaper "$(cat "$CACHE_FILE")" &
 fi
 
 # Start Quickshell
-killall qs
+killall qs 2>/dev/null || true
 sleep 0.5
-nohup qs > /dev/null 2>&1 &
+nohup /usr/bin/qs > /dev/null 2>&1 &
 disown
 sleep 0.5
 
 # Start ML4W Settings App
-nohup env PROFILE="com.ml4w.dotfiles" qs -p $HOME/.local/share/ml4w-dotfiles-settings/quickshell > /dev/null 2>&1 &
-disown
-info "ML4W Dotfiles Settings started"
+if [ -d "$HOME/.local/share/ml4w-dotfiles-settings/quickshell" ]; then
+    nohup env PROFILE="com.ml4w.dotfiles" /usr/bin/qs -p "$HOME/.local/share/ml4w-dotfiles-settings/quickshell" > /dev/null 2>&1 &
+    disown
+    info "ML4W Dotfiles Settings started"
+fi
 
 # Start Quickshell Overview
-nohup qs -p $HOME/.config/quickshell/overview > /dev/null 2>&1 &
-disown
-info "Quickshell Overview started"
+if [ -d "$HOME/.config/quickshell/overview" ]; then
+    nohup /usr/bin/qs -p "$HOME/.config/quickshell/overview" > /dev/null 2>&1 &
+    disown
+    info "Quickshell Overview started"
+fi
 
 # Start ML4W Welcome App
-if [ ! -f $HOME/.cache/ml4w-welcome-autostart ]; then
+if [ ! -f "$HOME/.cache/ml4w-welcome-autostart" ]; then
     sleep 3
-    qs ipc call welcome toggle
+    /usr/bin/qs ipc call welcome toggle
     info "ML4W Welcome started"
 else
     info "ML4W Welcome disabled"
 fi
 
 # Start wayvnc VNC Server
-systemctl --user restart wayvnc
-info "wayvnc VNC service restarted via systemd"
+if systemctl --user list-unit-files wayvnc.service &>/dev/null; then
+    systemctl --user restart wayvnc
+    info "wayvnc VNC service restarted via systemd"
+fi

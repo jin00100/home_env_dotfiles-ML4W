@@ -34,7 +34,11 @@ terminate_clients() {
 
 		echo ":: PID $pid has terminated."
 	done
-	bash $home/.config/ml4w/listeners.sh --stopall
+	bash "$HOME/.config/ml4w/listeners.sh" --stopall 2>/dev/null || true
+	pkill -9 waybar 2>/dev/null || true
+	pkill -9 swaync 2>/dev/null || true
+	pkill -9 hypridle 2>/dev/null || true
+	pkill -f "ml4w-wallpaper-automation" 2>/dev/null || true
 }
 
 if [[ "$1" == "exit" ]]; then

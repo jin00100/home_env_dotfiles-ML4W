@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
-exec nixGL kitty "$@"
+if command -v nixGL &>/dev/null; then
+    exec nixGL kitty "$@"
+else
+    exec kitty "$@"
+fi

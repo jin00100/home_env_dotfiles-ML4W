@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# -----------------------------------------------------
+# Guard: GTK Theme Switcher is exclusively for Hyprland
+# -----------------------------------------------------
+if [ "${XDG_CURRENT_DESKTOP,,}" != "hyprland" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    exit 0
+fi
+
 
 # This script monitors changes to the GTK settings.ini file
 # and automatically switches the 'matugen' theme between light and dark
@@ -95,6 +102,9 @@ apply_theme() {
 
 # Loop indefinitely, reading output from inotifywait
 inotifywait -m -q -e close_write,moved_to "$SETTINGS_DIR" | while read -r dir events filename; do
+    if [ "${XDG_CURRENT_DESKTOP,,}" != "hyprland" ] && [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+        exit 0
+    fi
     if [[ "$filename" == "$SETTINGS_BASENAME" ]]; then
         echo "Change detected in $SETTINGS_FILE. Re-applying theme..."
         apply_theme
