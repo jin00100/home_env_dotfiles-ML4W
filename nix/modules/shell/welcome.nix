@@ -54,7 +54,13 @@ EOF
         # Original system info colors
         echo -e "\x1b[1;31m $os_name\x1b[0m"
         echo -e "\x1b[1;33m HOST      : $(uname -n)\x1b[0m"
-        echo -e "\x1b[1;32m SESSION   : Zellij (Modern Terminal Workspace)\x1b[0m"
+        local session_title="Zellij (Modern Terminal Workspace)"
+        if [[ "$XDG_CURRENT_DESKTOP" == "niri" ]] || pgrep -u "$USER" -x niri >/dev/null 2>&1; then
+          session_title="iNiR / Niri"
+        elif [[ "$XDG_CURRENT_DESKTOP" == "Hyprland" ]] || pgrep -u "$USER" -x Hyprland >/dev/null 2>&1; then
+          session_title="Hyprland (ML4W)"
+        fi
+        echo -e "\x1b[1;32m SESSION   : $session_title\x1b[0m"
         echo -e "\x1b[1;34m Kernel    : $(uname -r)\x1b[0m"
         echo -e "\x1b[1;35m Date      : $(date +'%Y-%m-%d %H:%M:%S')\x1b[0m"
         echo -e "\x1b[1;36m Shell     : $(zsh --version | awk '{print $1, $2}')\x1b[0m"

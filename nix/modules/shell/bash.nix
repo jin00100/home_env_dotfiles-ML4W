@@ -5,7 +5,8 @@
     enable = true;
     initExtra = ''
       # iNiR (Niri) session isolation: keep original Fish shell & wallpaper colors
-      if [[ "$XDG_CURRENT_DESKTOP" == "niri" ]]; then
+      if [[ "$XDG_CURRENT_DESKTOP" == "niri" ]] || { [[ -z "$XDG_CURRENT_DESKTOP" ]] && pgrep -u "$USER" -x niri >/dev/null 2>&1; }; then
+        export XDG_CURRENT_DESKTOP="niri"
         if [ -f "$HOME/.local/state/quickshell/user/generated/terminal/sequences.txt" ]; then
           command cat "$HOME/.local/state/quickshell/user/generated/terminal/sequences.txt" 2>/dev/null
         fi

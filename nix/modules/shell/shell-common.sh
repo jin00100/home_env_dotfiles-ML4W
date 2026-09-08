@@ -54,16 +54,29 @@ if is_ssh; then
 fi
 
 # [Theme & Prompt Settings]
+_IS_NIRI=false
+if [[ "$XDG_CURRENT_DESKTOP" == "niri" ]] || { [[ -z "$XDG_CURRENT_DESKTOP" ]] && pgrep -u "$USER" -x niri >/dev/null 2>&1; }; then
+  _IS_NIRI=true
+fi
+
 if is_ssh; then
-  export STARSHIP_CONFIG="$HOME/.config/ml4w/starship/starship-ssh.toml"
   if [[ -n "$SSH_CONNECTION" ]]; then
     # SSH_CONNECTION: client_ip client_port server_ip server_port
     export SSH_LOCAL_IP=$(echo "$SSH_CONNECTION" | awk '{print $3}')
   fi
+  if [[ "$_IS_NIRI" == "true" ]] && [[ -f "$HOME/.config/starship-ssh.toml" ]]; then
+    export STARSHIP_CONFIG="$HOME/.config/starship-ssh.toml"
+  else
+    export STARSHIP_CONFIG="$HOME/.config/ml4w/starship/starship-ssh.toml"
+  fi
 elif is_container; then
   export STARSHIP_CONFIG="$HOME/.config/starship-docker.toml"
 else
-  export STARSHIP_CONFIG="$HOME/.config/ml4w/starship/starship.toml"
+  if [[ "$_IS_NIRI" == "true" ]] && [[ -f "$HOME/.config/starship.toml" ]]; then
+    export STARSHIP_CONFIG="$HOME/.config/starship.toml"
+  else
+    export STARSHIP_CONFIG="$HOME/.config/ml4w/starship/starship.toml"
+  fi
 fi
 
 # [Dynamic Aliases]
