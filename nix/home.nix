@@ -77,6 +77,10 @@
 
     # Reboot directly into Linux
     reboot-linux = "sudo efibootmgr -n 0000 && sudo reboot";
+
+    # Desktop Session Switchers (for Sunshine remote autologin)
+    use-niri = "sudo sed -i \"s/Session=.*/Session=niri/\" /etc/sddm.conf.d/autologin.conf && echo \"Switched to Niri session. Run 'sudo reboot' to apply.\"";
+    use-hyprland = "sudo sed -i \"s/Session=.*/Session=hyprland/\" /etc/sddm.conf.d/autologin.conf && echo \"Switched to Hyprland session. Run 'sudo reboot' to apply.\"";
   };
 
   home.sessionVariables = {
