@@ -114,7 +114,12 @@
       else
         # Use rsync to seamlessly update the directory contents without deleting the folder itself.
         # This prevents Hyprland from crashing or throwing a "file not found" error during the hot-swap.
-        ${pkgs.rsync}/bin/rsync -a --delete "$tmp_dest/" "$dest/"
+        # Exclude inir directory when updating quickshell to prevent wiping out Niri desktop shell!
+        extra_opts=""
+        if [ "$2" = "quickshell" ]; then
+          extra_opts="--exclude=inir"
+        fi
+        ${pkgs.rsync}/bin/rsync -a --delete $extra_opts "$tmp_dest/" "$dest/"
         rm -rf "$tmp_dest"
       fi
     }

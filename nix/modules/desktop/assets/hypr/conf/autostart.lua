@@ -3,8 +3,8 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("hyprctl setcursor Bibata-Modern-Ice 24")
     -- Start listeners
     hl.exec_cmd("~/.config/ml4w/listeners.sh --startall")
-    -- Ubuntu polkit-gnome needs X11; avoid loading Nix GTK modules into it.
-    hl.exec_cmd("env -u GDK_PIXBUF_MODULE_FILE -u GIO_EXTRA_MODULES GDK_BACKEND=x11 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
+    -- Start polkit-gnome authentication agent (supports Arch & Debian/Ubuntu)
+    hl.exec_cmd([=[bash -c 'for agent in /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1; do if [ -f "$agent" ]; then exec env -u GDK_PIXBUF_MODULE_FILE -u GIO_EXTRA_MODULES GDK_BACKEND=x11 "$agent"; fi; done']=])
     -- Restore wallpaper
     hl.exec_cmd("~/.config/ml4w/scripts/ml4w-wallpaper-app --restore")
     -- Give user services the current Wayland session before starting them.

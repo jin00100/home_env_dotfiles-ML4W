@@ -3,9 +3,9 @@
 [![Nix](https://img.shields.io/badge/Nix-Home_Manager-blue?logo=nixos&logoColor=white)](https://nixos.org)
 [![Hyprland](https://img.shields.io/badge/Hyprland-Wayland-00c853?logo=hyprland&logoColor=white)](https://hyprland.org)
 [![ML4W](https://img.shields.io/badge/ML4W-Dotfiles-orange)](https://github.com/mylinuxforwork)
-[![Platform](https://img.shields.io/badge/Platform-Ubuntu%20%7C%20Debian-lightgrey?logo=linux&logoColor=white)](https://ubuntu.com)
+[![Platform](https://img.shields.io/badge/Platform-Arch%20Linux%20%7C%20Ubuntu%20%7C%20Debian-lightgrey?logo=archlinux&logoColor=white)](https://archlinux.org)
 
-A personal, modular **Home Manager (Nix Flake)** configuration tailored for **Ubuntu/Debian + Hyprland**. It manages CLI tools, shell environments, development workflows, and desktop assets declaratively.
+A personal, modular **Home Manager (Nix Flake)** configuration tailored for **Arch Linux & Ubuntu/Debian + Hyprland**. It manages CLI tools, shell environments, development workflows, and desktop assets declaratively.
 
 > [!NOTE]
 > **Not a full NixOS configuration**: This setup runs on standard Linux distributions (`genericLinux` target). Hyprland and `xdg-desktop-portal-hyprland` are provided via system packages/PPAs, while Home Manager manages all user-space configurations, tools, and environments. Target architecture: `x86_64-linux` (`/home/$USER`).

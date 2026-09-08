@@ -26,6 +26,11 @@ if [ -f /etc/debian_version ]; then
     sudo apt-get update
     sudo apt-get install -y hyprland xdg-desktop-portal-hyprland hyprlock hypridle fcitx5 fcitx5-chinese-addons fcitx5-config-qt policykit-1-gnome
     echo -e "${GREEN}✅ System dependencies installed.${NC}"
+elif [ -f /etc/arch-release ]; then
+    echo -e "${YELLOW}📦 Detecting Arch Linux. Installing system dependencies...${NC}"
+    sudo -v
+    sudo pacman -S --needed --noconfirm hyprland xdg-desktop-portal-hyprland hyprlock hypridle fcitx5 fcitx5-chinese-addons fcitx5-qt polkit-gnome git curl rsync
+    echo -e "${GREEN}✅ Arch Linux system dependencies installed.${NC}"
 fi
 
 # --- Section 1: Nix Installation ---

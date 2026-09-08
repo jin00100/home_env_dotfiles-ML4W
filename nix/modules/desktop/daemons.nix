@@ -8,6 +8,7 @@
         PartOf = [ "graphical-session.target" ];
       };
       Service = {
+        ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
         Environment = "QT_QUICK_BACKEND=software";
         ExecStart = "%h/.nix-profile/bin/qs";
         Restart = "always";
@@ -22,6 +23,7 @@
         PartOf = [ "graphical-session.target" ];
       };
       Service = {
+        ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
         Environment = "QT_QUICK_BACKEND=software";
         ExecStart = "%h/.nix-profile/bin/qs -p %h/.config/quickshell/overview";
         Restart = "always";
@@ -36,6 +38,7 @@
         PartOf = [ "graphical-session.target" ];
       };
       Service = {
+        ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
         Environment = [
           "QT_QUICK_BACKEND=software"
           "PROFILE=com.ml4w.dotfiles"
