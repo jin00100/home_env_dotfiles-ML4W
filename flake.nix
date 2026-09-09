@@ -28,10 +28,26 @@
         };
 
       currentUsername = builtins.getEnv "USER";
+      username = if currentUsername != "" then currentUsername else "arch";
+      system = if builtins ? currentSystem then builtins.currentSystem else "x86_64-linux";
 
     in {
-      homeConfigurations = nixpkgs.lib.genAttrs [ currentUsername ] (username:
-        mkHomeConfig username "x86_64-linux"
-      );
+      homeConfigurations =
+        let
+          userConfigs = {
+            # Dynamic target for current user and host system
+            "${username}" = mkHomeConfig username system;
+            # Explicit architecture targets
+            "${username}@x86_64-linux" = mkHomeConfig username "x86_64-linux";
+            "${username}@aarch64-linux" = mkHomeConfig username "aarch64-linux";
+          };
+          archFallback = if username != "arch" then {
+            "arch" = mkHomeConfig "arch" system;
+            "arch@x86_64-linux" = mkHomeConfig "arch" "x86_64-linux";
+            "arch@aarch64-linux" = mkHomeConfig "arch" "aarch64-linux";
+          } else {};
+        in
+          userConfigs // archFallback;
     };
 }
+
