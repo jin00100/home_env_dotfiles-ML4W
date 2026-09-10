@@ -76,6 +76,12 @@
           if [ -d "$dest/wallpapers" ]; then
             cp -r "$dest/wallpapers" "$backup_dir/wallpapers"
           fi
+        elif [ "$2" = "kitty" ]; then
+          for f in current-theme.conf theme.conf; do
+            if [ -e "$dest/$f" ]; then
+              cp -P "$dest/$f" "$backup_dir/$f"
+            fi
+          done
         fi
       fi
 
@@ -103,6 +109,12 @@
           if [ -d "$backup_dir/wallpapers" ]; then
             cp -r "$backup_dir/wallpapers"/* "$tmp_dest/wallpapers/" 2>/dev/null || true
           fi
+        elif [ "$2" = "kitty" ]; then
+          for f in current-theme.conf theme.conf; do
+            if [ -e "$backup_dir/$f" ]; then
+              cp -P "$backup_dir/$f" "$tmp_dest/$f"
+            fi
+          done
         fi
       fi
       rm -rf "$backup_dir"
@@ -135,10 +147,10 @@
 
   # Static assets & settings that don't need runtime write access
   xdg.configFile = {
-    "matugen".source = ./assets/matugen;
+    # "matugen".source = ./assets/matugen; # managed locally to coexist with Niri
     "wlogout".source = ./assets/wlogout;
     "waypaper".source = ./assets/waypaper;
-    "fastfetch".source = ./assets/fastfetch;
+    # "fastfetch".source = ./assets/fastfetch; # managed locally to coexist with Niri
     "btop".source = ./assets/btop;
     "qt6ct".source = ./assets/qt6ct;
     "ml4w-dotfiles-settings".source = ./assets/ml4w-dotfiles-settings;

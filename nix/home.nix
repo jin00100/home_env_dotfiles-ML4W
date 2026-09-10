@@ -79,11 +79,12 @@
     reboot-linux = "sudo efibootmgr -n 0000 && sudo reboot";
 
     # Reboot directly into macOS (Apple Silicon Asahi)
-    reboot-macos = "command -v asahi-bless >/dev/null && sudo asahi-bless && sudo reboot || echo 'asahi-bless not found (not on Apple Silicon)'";
+    use-mac = "command -v asahi-bless >/dev/null && sudo asahi-bless && sudo reboot || echo 'asahi-bless not found (not on Apple Silicon)'";
+    reboot-macos = "use-mac";
 
-    # Desktop Session Switchers (for Sunshine remote autologin)
-    use-niri = "sudo sed -i \"s/Session=.*/Session=niri/\" /etc/sddm.conf.d/autologin.conf && echo \"Switched to Niri session. Run 'sudo reboot' to apply.\"";
-    use-hyprland = "sudo sed -i \"s/Session=.*/Session=hyprland/\" /etc/sddm.conf.d/autologin.conf && echo \"Switched to Hyprland session. Run 'sudo reboot' to apply.\"";
+    # Desktop Session Switchers (for Sunshine remote autologin & SDDM)
+    use-niri = "printf '[Autologin]\\nUser=%s\\nSession=niri\\n' \"$USER\" | sudo tee /etc/sddm.conf.d/autologin.conf >/dev/null && echo 'Switched to Niri session. Run sudo reboot to apply.'";
+    use-hyprland = "printf '[Autologin]\\nUser=%s\\nSession=hyprland\\n' \"$USER\" | sudo tee /etc/sddm.conf.d/autologin.conf >/dev/null && echo 'Switched to Hyprland session. Run sudo reboot to apply.'";
   };
 
   home.sessionVariables = {
