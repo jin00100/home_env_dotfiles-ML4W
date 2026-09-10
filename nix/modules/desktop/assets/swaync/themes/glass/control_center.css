@@ -79,14 +79,6 @@
   transition: all 0.2s ease-in-out;
 }
 
-.widget-buttons-grid button:hover label {
-  transform: scale(0.8)
-}
-
-.widget-buttons-grid button:checked label {
-  transform: scale(0.8)
-}
-
 /* === Brightness === */
 .widget-volume {
   padding: 12px 16px;
@@ -129,7 +121,6 @@
 .widget-mpris {
   border-radius: 10px;
   margin: 2px 12px 12px 12px;
-  align-items: center;
   color: alpha(#000000, 0.8);
 }
 
@@ -147,10 +138,6 @@
 
 .widget-mpris-player {
   border-radius: 10px;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
   color: alpha(#000000, 0.8);
 }
 
@@ -306,5 +293,5 @@ trough highlight {
     opacity:1.0;
     padding:10px;
     margin:10px 0px 0px 0px;
-    box-shadow: 1 1 5 1px @shadow;
+    box-shadow: 1px 1px 5px 1px @shadow;
 }
