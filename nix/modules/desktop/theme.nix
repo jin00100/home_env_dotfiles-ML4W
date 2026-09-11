@@ -143,6 +143,7 @@
     copyConfig "${./assets/nwg-dock-hyprland}" "nwg-dock-hyprland"
     copyConfig "${./assets/walker}" "walker"
     copyConfig "${./assets/quickshell}" "quickshell"
+    copyConfig "${./assets/matugen}" "matugen"
   '';
 
   # Static assets & settings that don't need runtime write access
