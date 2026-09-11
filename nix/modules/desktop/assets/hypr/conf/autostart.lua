@@ -21,6 +21,8 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("hypridle")
     -- Load cliphist history
     hl.exec_cmd("wl-paste --watch cliphist store")
+    -- Pre-warm Nautilus file manager in background for instantaneous Super+E opening
+    hl.exec_cmd("env NAUTILUS_PERSIST=1 nautilus --gapplication-service")
     -- Start autostart cleanup
     hl.exec_cmd("~/.config/hypr/scripts/cleanup.sh")
     -- Start Chameleon Engine (Wallpaper Automation)

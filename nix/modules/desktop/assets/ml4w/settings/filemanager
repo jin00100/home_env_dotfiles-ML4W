@@ -1,1 +1,9 @@
-nautilus --new-window
+#!/usr/bin/env bash
+
+# If Nautilus is already running in background, trigger new-window instantly (~39ms) via D-Bus
+if pgrep -x nautilus >/dev/null 2>&1; then
+    gdbus call --session --dest org.gnome.Nautilus --object-path /org/gnome/Nautilus --method org.gtk.Actions.Activate "new-window" "[]" "{}" >/dev/null 2>&1 && exit 0
+fi
+
+# Otherwise launch persistent instance
+exec env NAUTILUS_PERSIST=1 nautilus --new-window "$@"
