@@ -48,23 +48,26 @@ if [ "$WALLPAPER_APP" == "quickshell" ]; then
     ~/.config/ml4w/scripts/ml4w-wallpaper "$(cat "$CACHE_FILE")" &
 fi
 
+# Locate quickshell binary (supports system-installed /usr/bin/qs, ~/.nix-profile, and ~/.local/bin)
+QS_BIN=$(command -v qs 2>/dev/null || command -v quickshell 2>/dev/null || ([ -x /usr/bin/qs ] && echo "/usr/bin/qs") || echo "$HOME/.nix-profile/bin/qs")
+
 # Start Quickshell
 killall qs 2>/dev/null || true
 sleep 0.5
-nohup /usr/bin/qs > /dev/null 2>&1 &
+nohup "$QS_BIN" > /dev/null 2>&1 &
 disown
 sleep 0.5
 
 # Start ML4W Settings App
 if [ -d "$HOME/.local/share/ml4w-dotfiles-settings/quickshell" ]; then
-    nohup env PROFILE="com.ml4w.dotfiles" /usr/bin/qs -p "$HOME/.local/share/ml4w-dotfiles-settings/quickshell" > /dev/null 2>&1 &
+    nohup env PROFILE="com.ml4w.dotfiles" "$QS_BIN" -p "$HOME/.local/share/ml4w-dotfiles-settings/quickshell" > /dev/null 2>&1 &
     disown
     info "ML4W Dotfiles Settings started"
 fi
 
 # Start Quickshell Overview
 if [ -d "$HOME/.config/quickshell/overview" ]; then
-    nohup /usr/bin/qs -p "$HOME/.config/quickshell/overview" > /dev/null 2>&1 &
+    nohup "$QS_BIN" -p "$HOME/.config/quickshell/overview" > /dev/null 2>&1 &
     disown
     info "Quickshell Overview started"
 fi
@@ -72,7 +75,7 @@ fi
 # Start ML4W Welcome App
 if [ ! -f "$HOME/.cache/ml4w-welcome-autostart" ]; then
     sleep 3
-    /usr/bin/qs ipc call welcome toggle
+    "$QS_BIN" ipc call welcome toggle
     info "ML4W Welcome started"
 else
     info "ML4W Welcome disabled"

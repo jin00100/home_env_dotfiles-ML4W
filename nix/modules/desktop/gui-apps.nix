@@ -30,6 +30,7 @@
     udiskie
     swaybg
     imagemagick
+    quickshell
     grimblast
   ];
 }

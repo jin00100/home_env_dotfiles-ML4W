@@ -1,5 +1,12 @@
 { config, pkgs, ... }:
 
+let
+  qsRunner = pkgs.writeShellScript "ml4w-qs-runner" ''
+    export PATH="$HOME/.nix-profile/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+    QS_BIN="$(command -v qs 2>/dev/null || command -v quickshell 2>/dev/null || ([ -x /usr/bin/qs ] && echo "/usr/bin/qs") || echo "${pkgs.quickshell}/bin/qs")"
+    exec "$QS_BIN" "$@"
+  '';
+in
 {
   systemd.user.services = {
     ml4w-quickshell = {
@@ -9,7 +16,7 @@
       };
       Service = {
         ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
-        ExecStart = "/usr/bin/qs";
+        ExecStart = "${qsRunner}";
         Restart = "always";
         RestartSec = 2;
       };
@@ -23,7 +30,7 @@
       };
       Service = {
         ExecCondition = "${pkgs.bash}/bin/bash -c '[ \"$XDG_CURRENT_DESKTOP\" = \"Hyprland\" ]'";
-        ExecStart = "/usr/bin/qs -p %h/.config/quickshell/overview";
+        ExecStart = "${qsRunner} -p %h/.config/quickshell/overview";
         Restart = "always";
         RestartSec = 2;
       };
@@ -40,7 +47,7 @@
         Environment = [
           "PROFILE=com.ml4w.dotfiles"
         ];
-        ExecStart = "/usr/bin/qs -p %h/.local/share/ml4w-dotfiles-settings/quickshell";
+        ExecStart = "${qsRunner} -p %h/.local/share/ml4w-dotfiles-settings/quickshell";
         Restart = "always";
         RestartSec = 2;
       };
