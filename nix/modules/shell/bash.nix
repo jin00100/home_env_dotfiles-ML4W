@@ -20,8 +20,8 @@
 
       '' + builtins.readFile ./shell-common.sh + ''
       
-      # If this is an interactive bash shell, drop directly into zsh
-      if [[ $- == *i* ]]; then
+      # If this is an interactive bash shell with a valid TTY, drop directly into zsh
+      if [[ $- == *i* && -t 0 && -t 1 ]]; then
         export SHELL=$(which zsh)
         exec zsh -l
       fi

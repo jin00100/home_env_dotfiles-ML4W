@@ -1,12 +1,22 @@
-# [Environment Detection]
-function is_ssh() { 
-  [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]] && return 0
-  [[ "$(ps -o comm= -p $PPID 2>/dev/null)" == "sshd" ]]
-}
-function is_container() {
-    # Distrobox, Docker, Podman 등 컨테이너 환경 감지
-    [[ -n "$DISTROBOX_ENTER_PATH" ]] || [[ -e /run/.containerenv ]] || [[ -e /.dockerenv ]] || grep -qE "docker|podman|containerd" /proc/1/cgroup 2>/dev/null
-}
+# [Environment Detection - Optimized for Zero Fork Lag]
+if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]]; then
+  _IS_SSH=true
+elif [[ -r "/proc/$PPID/comm" ]] && [[ "$(< /proc/$PPID/comm)" == "sshd"* ]]; then
+  _IS_SSH=true
+else
+  _IS_SSH=false
+fi
+function is_ssh() { [[ "$_IS_SSH" == "true" ]]; }
+
+if [[ -n "$DISTROBOX_ENTER_PATH" || -e /run/.containerenv || -e /.dockerenv ]]; then
+  _IS_CONTAINER=true
+elif [[ -r /proc/1/cgroup ]] && grep -qE "docker|podman|containerd" /proc/1/cgroup 2>/dev/null; then
+  _IS_CONTAINER=true
+else
+  _IS_CONTAINER=false
+fi
+function is_container() { [[ "$_IS_CONTAINER" == "true" ]]; }
+
 function is_vscode() { [[ "$TERM_PROGRAM" == "vscode" || -n "$VSCODE_IPC_HOOK_CLI" || -n "$VSCODE_PID" ]]; }
 
 # [Container Error Shield]

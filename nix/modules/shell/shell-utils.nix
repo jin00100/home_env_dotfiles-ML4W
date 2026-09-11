@@ -42,10 +42,10 @@
     nix-direnv.enable = true;
   };
 
-  # 7. Pyenv
+  # 7. Pyenv (Zsh integration managed in zsh.nix for zero-lag startup)
   programs.pyenv = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
   };
 
   # 8. Yazi (Terminal File Manager)
@@ -106,10 +106,10 @@
     flags = [ "--disable-up-arrow" ];
   };
 
-  # 10. Navi (Interactive Cheatsheet)
+  # 10. Navi (Interactive Cheatsheet - Zsh integration cached in zsh.nix for zero-lag startup)
   programs.navi = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     enableBashIntegration = true;
   };
 }

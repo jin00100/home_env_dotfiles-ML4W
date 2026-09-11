@@ -30,12 +30,17 @@ hl.curve("easeOutExpo", { type = "bezier", points = { {0.16, 1}, {0.3, 1} } })
 hl.curve("softAcDecel", { type = "bezier", points = { {0.26, 0.26}, {0.15, 1} } })
 hl.curve("md2", { type = "bezier", points = { {0.4, 0}, {0.2, 1} } }) -- use with .2s duration
 
+hl.curve("vapor", { type = "bezier", points = { {0.0, 0.0}, {0.2, 1.0} } })
+hl.curve("snap_out", { type = "bezier", points = { {0.7, 0.0}, {0.3, 1.0} } })
+
 --------------------------------------------------------------------------------
 -- Animation Rules
 --------------------------------------------------------------------------------
 hl.animation({ leaf = "windows", enabled = true, speed = 5, bezier = "overshot", style = "popin 80%" })
 hl.animation({ leaf = "windowsIn", enabled = true, speed = 5, bezier = "overshot", style = "popin 80%" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 4, bezier = "md3_accel", style = "popin 80%" })
+-- Windows Out: Upward Vaporize
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 5, bezier = "vapor", style = "slide top" })
+hl.animation({ leaf = "fadeOut", enabled = true, speed = 5, bezier = "vapor" })
 hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "borderangle", enabled = true, speed = 30, bezier = "linear", style = "loop" })
 hl.animation({ leaf = "fade", enabled = true, speed = 3, bezier = "md3_decel" })

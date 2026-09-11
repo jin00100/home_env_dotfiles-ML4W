@@ -57,6 +57,33 @@
         source ~/.zsh_cache/kubectl_completion
       fi
 
+      # [Navi Cheatsheet Widget (Cached - saves ~180ms startup lag)]
+      if [[ $options[zle] = on ]] && command -v navi &>/dev/null; then
+        if [[ ! -f ~/.zsh_cache/navi_widget ]]; then
+          navi widget zsh > ~/.zsh_cache/navi_widget 2>/dev/null
+        fi
+        source ~/.zsh_cache/navi_widget
+      fi
+
+      # [Pyenv Shims (Zero-lag setup - saves ~50ms startup lag)]
+      export PYENV_ROOT="$HOME/.local/share/pyenv"
+      if command -v pyenv &>/dev/null; then
+        export PATH="$PYENV_ROOT/shims:$PATH"
+        export PYENV_SHELL=zsh
+        pyenv() {
+          local command=''${1:-}
+          [ "$#" -gt 0 ] && shift
+          case "$command" in
+          rehash|shell)
+            eval "$(command pyenv "sh-$command" "$@")"
+            ;;
+          *)
+            command pyenv "$command" "$@"
+            ;;
+          esac
+        }
+      fi
+
       # [Keybindings]
       bindkey '^[[A' history-substring-search-up
       bindkey '^[[B' history-substring-search-down
