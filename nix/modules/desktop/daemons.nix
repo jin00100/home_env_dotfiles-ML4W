@@ -3,6 +3,8 @@
 let
   qsRunner = pkgs.writeShellScript "ml4w-qs-runner" ''
     export PATH="$HOME/.nix-profile/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+    export QT_QUICK_BACKEND=software
+    export XDG_DATA_DIRS="$HOME/.local/share:$HOME/.nix-profile/share:''${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
     QS_BIN="$(command -v qs 2>/dev/null || command -v quickshell 2>/dev/null || ([ -x /usr/bin/qs ] && echo "/usr/bin/qs") || echo "${pkgs.quickshell}/bin/qs")"
     exec "$QS_BIN" "$@"
   '';

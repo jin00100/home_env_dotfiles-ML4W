@@ -48,6 +48,10 @@ if [ "$WALLPAPER_APP" == "quickshell" ]; then
     ~/.config/ml4w/scripts/ml4w-wallpaper "$(cat "$CACHE_FILE")" &
 fi
 
+# Export environment variables for Quickshell
+export QT_QUICK_BACKEND=software
+export XDG_DATA_DIRS="$HOME/.local/share:$HOME/.nix-profile/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+
 # Locate quickshell binary (supports system-installed /usr/bin/qs, ~/.nix-profile, and ~/.local/bin)
 QS_BIN=$(command -v qs 2>/dev/null || command -v quickshell 2>/dev/null || ([ -x /usr/bin/qs ] && echo "/usr/bin/qs") || echo "$HOME/.nix-profile/bin/qs")
 

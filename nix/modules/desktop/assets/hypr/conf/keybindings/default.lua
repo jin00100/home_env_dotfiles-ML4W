@@ -66,11 +66,16 @@ hl.bind(mainMod .. " + ALT + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/gamemod
 hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("~/.config/ml4w/scripts/ml4w-power -l"), { description = "Lock Screen" })
 hl.bind(mainMod .. " + SHIFT + H", hl.dsp.exec_cmd("~/.config/ml4w/scripts/ml4w-toggle-hyprsunset"), { description = "Toggle Hyprsunset" })
 hl.bind(mainMod .. " + Tab", hl.dsp.exec_cmd("qs -p ~/.config/quickshell/overview ipc call overview toggle"), { description = "Open Select Window Menu" })
+hl.bind(mainMod .. " + SHIFT + O", hl.dsp.workspace.move({ monitor = "+1" }), { description = "Move current workspace to next monitor" })
 hl.bind("CTRL + ALT + T", hl.dsp.exec_cmd("~/.config/ml4w/themes/themes.sh"), { description = "Open Themes Menu" })
 
--- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"), { description = "Toggle special workspace magic" })
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("~/.config/ml4w/scripts/ml4w-toggle-scratchpad-window"), { description = "Toggle window in/out of special workspace magic" })
+-- Special workspace 1 (magic)
+hl.bind(mainMod .. " + S",                 hl.dsp.workspace.toggle_special("magic"), { description = "Toggle special workspace magic" })
+hl.bind(mainMod .. " + SHIFT + S",         hl.dsp.exec_cmd("~/.config/ml4w/scripts/ml4w-toggle-scratchpad-window magic"), { description = "Toggle window in/out of special workspace magic" })
+
+-- Special workspace 2 (stash)
+hl.bind(mainMod .. " + ALT + S",         hl.dsp.workspace.toggle_special("stash"), { description = "Toggle special workspace stash" })
+hl.bind(mainMod .. " + ALT + SHIFT + S", hl.dsp.exec_cmd("~/.config/ml4w/scripts/ml4w-toggle-scratchpad-window stash"), { description = "Toggle window in/out of special workspace stash" })
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Switch to next workspace" })

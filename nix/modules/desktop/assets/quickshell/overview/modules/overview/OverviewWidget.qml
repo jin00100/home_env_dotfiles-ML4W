@@ -533,7 +533,7 @@ Item {
 
                             StyledText {
                                 anchors.centerIn: parent
-                                visible: !workspace.showWallpaper
+                                visible: !workspace.showWallpaper && !root.windows.some(w => w.workspace?.id === workspaceValue)
                                 text: workspaceValue
                                 font {
                                     pixelSize: root.workspaceNumberSize * root.scale
@@ -759,8 +759,8 @@ Item {
                                             scale: root.scale
                                             availableWorkspaceWidth: specialWorkspaceContent.width
                                             availableWorkspaceHeight: specialWorkspaceContent.height
-                                            positionBaseX: Number.isFinite(specialWorkspaceTile.specialGeometry?.x) ? specialWorkspaceTile.specialGeometry.x : ((monitor?.x ?? 0) + (monitor?.reserved?.[0] ?? 0))
-                                            positionBaseY: Number.isFinite(specialWorkspaceTile.specialGeometry?.y) ? specialWorkspaceTile.specialGeometry.y : ((monitor?.y ?? 0) + (monitor?.reserved?.[1] ?? 0))
+                                            positionBaseX: Number.isFinite(specialWorkspaceTile.specialGeometry?.x) ? specialWorkspaceTile.specialGeometry.x : ((monitor?.x ?? 0) + (monitor?.reserved?.[2] ?? 0))
+                                            positionBaseY: Number.isFinite(specialWorkspaceTile.specialGeometry?.y) ? specialWorkspaceTile.specialGeometry.y : ((monitor?.y ?? 0) + (monitor?.reserved?.[0] ?? 0))
                                             geometryScaleX: specialWorkspaceTile.fitScale / root.scale
                                             geometryScaleY: specialWorkspaceTile.fitScale / root.scale
                                             xOffset: 0
@@ -949,8 +949,8 @@ Item {
                                     text: root.draggingTargetSpecialWorkspace === root.createSpecialWorkspaceTarget ? "Release" : "+"
                                     font.family: Appearance.font.family.expressive
                                     font.pixelSize: root.draggingTargetSpecialWorkspace === root.createSpecialWorkspaceTarget
-                                        ? Appearance.font.pixelSize.larger * root.scale
-                                        : Appearance.font.pixelSize.huge * 1.25 * root.scale
+                                        ? Appearance.font.pixelSize.larger
+                                        : Appearance.font.pixelSize.huge * 1.5
                                     font.weight: Font.DemiBold
                                     color: ColorUtils.applyAlpha(Appearance.colors.colOnLayer1, 0.92)
                                     horizontalAlignment: Text.AlignHCenter
@@ -1071,8 +1071,8 @@ Item {
                         repeat: false
                         running: false
                         onTriggered: {
-                            window.x = Math.round(Math.max((windowData?.at[0] - (monitor?.x ?? 0) - (monitorData?.reserved?.[0] ?? 0)) * root.scale * window.widthRatio, 0) + xOffset)
-                            window.y = Math.round(Math.max((windowData?.at[1] - (monitor?.y ?? 0) - (monitorData?.reserved?.[1] ?? 0)) * root.scale * window.heightRatio, 0) + yOffset)
+                            window.x = Math.round(Math.max((windowData?.at[0] - (monitor?.x ?? 0) - (monitorData?.reserved?.[2] ?? 0)) * root.scale * window.widthRatio, 0) + xOffset)
+                            window.y = Math.round(Math.max((windowData?.at[1] - (monitor?.y ?? 0) - (monitorData?.reserved?.[0] ?? 0)) * root.scale * window.heightRatio, 0) + yOffset)
                         }
                     }
 

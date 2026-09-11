@@ -16,8 +16,8 @@ Item { // Window
     property var scale
     property var availableWorkspaceWidth
     property var availableWorkspaceHeight
-    property real positionBaseX: (monitorData?.x ?? 0) + (monitorData?.reserved?.[0] ?? 0)
-    property real positionBaseY: (monitorData?.y ?? 0) + (monitorData?.reserved?.[1] ?? 0)
+    property real positionBaseX: (monitorData?.x ?? 0) + (monitorData?.reserved?.[2] ?? 0)
+    property real positionBaseY: (monitorData?.y ?? 0) + (monitorData?.reserved?.[0] ?? 0)
     property int recaptureToken: 0
     property bool restrictToWorkspace: true
     property real widthRatio: {
@@ -86,9 +86,16 @@ Item { // Window
         const raw = `${entry?.icon ?? ""}`.trim();
         const withoutProviderPrefix = raw.replace(/^image:\/\/icon\//, "");
         const withoutQuery = withoutProviderPrefix.split("?")[0].trim();
-        return withoutQuery.length > 0 ? withoutQuery : "application-x-executable";
+        if (withoutQuery.length > 0)
+            return withoutQuery;
+        const cls = `${windowData?.class ?? windowData?.initialClass ?? ""}`.trim().toLowerCase();
+        return cls.length > 0 ? cls : "application-x-executable";
     }
-    property var iconPath: Quickshell.iconPath(iconName, "image-missing")
+    property var iconPath: {
+        if (iconName.startsWith("/") || iconName.startsWith("file://"))
+            return iconName.startsWith("file://") ? iconName : ("file://" + iconName);
+        return Quickshell.iconPath(iconName, "application-x-executable");
+    }
     property bool compactMode: Appearance.font.pixelSize.smaller * 4 > targetWindowHeight || Appearance.font.pixelSize.smaller * 4 > targetWindowWidth
 
     property bool indicateXWayland: windowData?.xwayland ?? false
@@ -134,7 +141,7 @@ Item { // Window
     // The simplest solution for making those windows fully opaque and not interacting with actual
     // windows behind the overview, e.g., applying blur to them.
     Rectangle {
-        visible: (root.windowData?.monitor ?? -1) === root.widgetMonitorId
+        visible: true
         anchors.fill: parent
         radius: Appearance.rounding.windowRounding * root.scale
         color: root.glassMode
@@ -212,16 +219,27 @@ Item { // Window
 
             Image {
                 id: windowIcon
-                visible: root.showIcons
+                visible: root.showIcons && status !== Image.Error
                 property var iconSize: {
                     const renderedSize = Math.min(root.width, root.height);
-                    return renderedSize * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio) / (root.monitorData?.scale ?? 1);
+                    const calculated = renderedSize * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio) / (root.monitorData?.scale ?? 1);
+                    return Math.max(16, calculated);
                 }
                 Layout.alignment: Qt.AlignHCenter
                 source: root.iconPath
                 width: iconSize
                 height: iconSize
-                sourceSize: Qt.size(Math.max(1, Math.round(iconSize)), Math.max(1, Math.round(iconSize)))
+                sourceSize: Qt.size(Math.max(48, Math.round(iconSize)), Math.max(48, Math.round(iconSize)))
+            }
+
+            StyledText {
+                visible: root.showIcons && windowIcon.status === Image.Error
+                Layout.alignment: Qt.AlignHCenter
+                text: (root.windowData?.title ?? root.windowData?.class ?? "?").substring(0, 1).toUpperCase()
+                font.pixelSize: windowIcon.iconSize
+                font.family: Appearance.font.family.expressive
+                font.bold: true
+                color: ColorUtils.applyAlpha(Appearance.colors.colOnLayer2, 0.85)
             }
         }
     }
