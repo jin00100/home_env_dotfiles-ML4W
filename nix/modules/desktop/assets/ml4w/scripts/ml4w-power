@@ -2,7 +2,7 @@
 
 # 1. Define fallbacks as explicit functions to prevent quote-stripping issues
 lock_action()     { pidof hyprlock || hyprlock; }
-suspend_action()  { systemctl suspend; }
+suspend_action()  { pidof hyprlock || hyprlock; }
 logout_action()   {
     bash "$HOME/.config/ml4w/listeners.sh" --stopall 2>/dev/null || true
     pkill -9 waybar 2>/dev/null || true

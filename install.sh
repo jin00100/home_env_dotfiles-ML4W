@@ -31,6 +31,8 @@ elif [ -f /etc/arch-release ]; then
     sudo -v
     sudo pacman -S --needed --noconfirm hyprland xdg-desktop-portal-hyprland hyprlock hypridle fcitx5 fcitx5-chinese-addons fcitx5-qt polkit-gnome git curl rsync kitty quickshell qt6-5compat jq
     echo -e "${GREEN}✅ Arch Linux system dependencies installed.${NC}"
+    # Disable sleep and enforce lock-on-lid
+    bash "$(dirname "$0")/scripts/disable-system-sleep.sh" || true
 fi
 
 # --- Section 1: Nix Installation ---

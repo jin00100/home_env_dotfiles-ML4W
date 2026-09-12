@@ -103,8 +103,12 @@
           done
         elif [ "$2" = "ml4w" ]; then
           if [ -d "$backup_dir/settings" ]; then
-            rm -rf "$tmp_dest/settings"
-            cp -r "$backup_dir/settings" "$tmp_dest/settings"
+            cp -rn "$backup_dir/settings"/* "$tmp_dest/settings/" 2>/dev/null || true
+            for script in terminal.sh installupdates.sh networkmanager.sh system-monitor.sh; do
+              if [ -f "$src/settings/$script" ]; then
+                cp -f "$src/settings/$script" "$tmp_dest/settings/$script"
+              fi
+            done
           fi
           if [ -d "$backup_dir/wallpapers" ]; then
             cp -r "$backup_dir/wallpapers"/* "$tmp_dest/wallpapers/" 2>/dev/null || true

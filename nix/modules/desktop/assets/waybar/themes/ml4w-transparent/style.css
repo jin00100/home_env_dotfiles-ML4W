@@ -224,20 +224,14 @@ color: @icon_color;
  * Custom Updates
  * ----------------------------------------------------- */
 
-#custom-updates.yellow {
-border-radius: 8px;
-margin:5px 0px 5px 5px;
-padding:0px 6px 0px 6px;
-background-color: @secondary;
-color: @on_secondary;
-}
-
+#custom-updates,
+#custom-updates.yellow,
 #custom-updates.red {
-border-radius: 8px;
-margin:6px 0px 6px 7px;
-padding:0px 6px 0px 6px;
-background-color: @error;
-color:@on_error;
+    border-radius: 8px;
+    margin: 5px 4px;
+    padding: 0px 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
 }
 
 /* -----------------------------------------------------
@@ -360,4 +354,13 @@ padding: 0px 5px 0px 10px;
 
 #tray > .needs-attention {
 -gtk-icon-effect: highlight;
+}
+
+#custom-hypridle {
+    margin-right: 12px;
+    color: white;
+}
+
+#custom-hypridle.notactive {
+    color: rgba(255, 255, 255, 0.4);
 }

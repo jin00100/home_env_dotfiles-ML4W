@@ -28,6 +28,7 @@
     // Modules Right    
     "modules-right": [
         "custom/updates",
+        "custom/hypridle",
         //"pulseaudio",
         //"backlight",
         "bluetooth",

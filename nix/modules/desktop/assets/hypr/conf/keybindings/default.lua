@@ -94,3 +94,7 @@ hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = tr
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Pause audio" })
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Play audio" })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true, description = "Previous track" })
+
+-- Laptop Lid Switch: Lock screen when lid is closed
+hl.bind("switch:on:Apple SMC power/lid events", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"), { locked = true, description = "Lock screen on lid close" })
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"), { locked = true, description = "Lock screen on lid close" })

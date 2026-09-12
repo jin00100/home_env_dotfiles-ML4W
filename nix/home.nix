@@ -88,6 +88,8 @@
   };
 
   home.sessionVariables = {
+    LANG = "C.UTF-8";
+    LC_ALL = "C.UTF-8";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";

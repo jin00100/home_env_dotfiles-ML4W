@@ -1,3 +1,12 @@
+# [Locale UTF-8 Guarantee]
+# Prevent ZLE cursor offset & ghost character repetition (gigit, susudo) caused by multi-byte UTF-8 glyphs in Starship prompt under LANG=C
+if [[ -z "$LANG" || "$LANG" == "C" || "$LANG" == "POSIX" ]]; then
+  export LANG="C.UTF-8"
+fi
+if [[ -z "$LC_ALL" || "$LC_ALL" == "C" || "$LC_ALL" == "POSIX" ]]; then
+  export LC_ALL="C.UTF-8"
+fi
+
 # [Environment Detection - Optimized for Zero Fork Lag]
 if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" || -n "$SSH_CONNECTION" ]]; then
   _IS_SSH=true
