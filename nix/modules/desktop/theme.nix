@@ -7,32 +7,9 @@
     bibata-cursors
   ];
 
+  # GTK & Qt appearance settings are managed locally to coexist with Niri without clobbering themes
   gtk = {
-    enable = true;
-    theme = {
-      name = "adw-gtk3-dark";
-      package = pkgs.adw-gtk3;
-    };
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.theme = null;
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-      size = 52;
-    };
-    font = {
-      name = "Maple Mono NF";
-      size = 11;
-    };
+    enable = false;
   };
 
   qt = {
@@ -157,13 +134,11 @@
     "waypaper".source = ./assets/waypaper;
     # "fastfetch".source = ./assets/fastfetch; # managed locally to coexist with Niri
     "btop".source = ./assets/btop;
-    "qt6ct".source = ./assets/qt6ct;
+    # "qt6ct".source = ./assets/qt6ct; # managed locally to coexist with Niri
     "ml4w-dotfiles-settings".source = ./assets/ml4w-dotfiles-settings;
     "sidepad".source = ./assets/sidepad;
     "xsettingsd".source = ./assets/xsettingsd;
     "chromium-flags.conf".source = ./assets/chromium-flags.conf;
     "edge-flags.conf".source = ./assets/edge-flags.conf;
-    "gtk-3.0/settings.ini".force = true;
-    "gtk-4.0/settings.ini".force = true;
   };
 }
