@@ -159,5 +159,7 @@
     "xsettingsd".source = ./assets/xsettingsd;
     "chromium-flags.conf".source = ./assets/chromium-flags.conf;
     "edge-flags.conf".source = ./assets/edge-flags.conf;
+    "gtk-3.0/settings.ini".force = true;
+    "gtk-4.0/settings.ini".force = true;
   };
 }

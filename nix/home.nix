@@ -65,7 +65,7 @@
 
     # Home Manager alias for fast rebuilds.
     # Uses the local home-manager binary directly to bypass nix run network overhead, making updates sub-second.
-    hms = "home-manager switch --flake ~/home_env_dotfiles-ML4W/#${username} --impure -b backup";
+    hms = "HOME_MANAGER_BACKUP_OVERWRITE=1 home-manager switch --flake ~/home_env_dotfiles-ML4W/#${username} --impure -b backup";
     
     # Zellij aliases
     zj = "zellij";
