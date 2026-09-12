@@ -53,7 +53,7 @@ export QT_QUICK_BACKEND=software
 export XDG_DATA_DIRS="$HOME/.local/share:$HOME/.nix-profile/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
 # Locate quickshell binary (supports system-installed /usr/bin/qs, ~/.nix-profile, and ~/.local/bin)
-QS_BIN=$(command -v qs 2>/dev/null || command -v quickshell 2>/dev/null || ([ -x /usr/bin/qs ] && echo "/usr/bin/qs") || echo "$HOME/.nix-profile/bin/qs")
+QS_BIN=$(([ -x /usr/bin/qs ] && echo "/usr/bin/qs") || ([ -x /usr/bin/quickshell ] && echo "/usr/bin/quickshell") || command -v qs 2>/dev/null || command -v quickshell 2>/dev/null || echo "$HOME/.nix-profile/bin/qs")
 
 # Start Quickshell
 killall qs 2>/dev/null || true
