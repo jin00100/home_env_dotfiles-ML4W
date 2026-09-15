@@ -99,6 +99,36 @@ Item { // Window
     property bool compactMode: Appearance.font.pixelSize.smaller * 4 > targetWindowHeight || Appearance.font.pixelSize.smaller * 4 > targetWindowWidth
 
     property bool indicateXWayland: windowData?.xwayland ?? false
+    property int widgetMonitorActiveWorkspaceId: -1
+    property bool isCurrentActiveWindow: {
+        const myAddr = `${root.windowData?.address ?? ""}`.trim().toLowerCase();
+        const activeAddr = `${HyprlandData.activeWindowAddress ?? ""}`.trim().toLowerCase();
+        if (activeAddr.length > 0 && myAddr.length > 0) {
+            return myAddr === activeAddr;
+        }
+        return (root.windowData?.focusHistoryID === 0);
+    }
+    property int workspaceWindowCount: {
+        const wsId = root.windowData?.workspace?.id;
+        if (wsId === undefined || wsId === null) return 1;
+        return HyprlandData.windowList.filter(w => w.workspace?.id === wsId).length;
+    }
+    property bool isSingleOrFullscreen: (workspaceWindowCount <= 1) || ((root.windowData?.fullscreen ?? 0) > 0)
+    property bool isInActiveWorkspace: {
+        const wsId = root.windowData?.workspace?.id;
+        if (wsId === undefined || wsId === null) return false;
+        return wsId === root.widgetMonitorActiveWorkspaceId;
+    }
+    property bool shouldShowActiveBorder: {
+        if (!root.isCurrentActiveWindow)
+            return false;
+        // If this window is inside the active workspace and fills it (single window or fullscreen),
+        // the workspace focus indicator (focusedWorkspaceIndicator) already frames it.
+        // Drawing an active border on the window itself creates an ugly double border (双重框).
+        if (isInActiveWorkspace && isSingleOrFullscreen)
+            return false;
+        return true;
+    }
     property bool previewCaptureEnabled: true
     property bool initialized: false
     property bool dragInProgress: false
@@ -203,16 +233,20 @@ Item { // Window
     Rectangle {
         anchors.fill: parent
         radius: Appearance.rounding.windowRounding * root.scale
-        color: pressed ? ColorUtils.applyAlpha(Appearance.colors.colLayer2Active, Math.min(1, root.effectiveWindowOverlayOpacity + 0.30)) :
-            hovered ? ColorUtils.applyAlpha(Appearance.colors.colLayer2Hover, Math.min(1, root.effectiveWindowOverlayOpacity + 0.20)) :
-            ColorUtils.applyAlpha(
+        color: pressed
+            ? ColorUtils.applyAlpha(Appearance.colors.colPrimary, 0.16)
+            : hovered
+            ? ColorUtils.applyAlpha(Appearance.colors.colPrimary, 0.08)
+            : ColorUtils.applyAlpha(
                 root.glassMode ? ColorUtils.mix(Appearance.colors.colLayer2, Appearance.colors.colLayer0, 0.38) : Appearance.colors.colLayer2,
                 root.effectiveWindowOverlayOpacity
             )
-        border.color: root.glassMode
-            ? ColorUtils.applyAlpha(Appearance.m3colors.m3outline, 0.62)
-            : ColorUtils.transparentize(Appearance.m3colors.m3outline, 0.7)
-        border.width: 1
+        border.color: (root.shouldShowActiveBorder || hovered)
+            ? Appearance.colors.colPrimary
+            : (root.glassMode
+                ? ColorUtils.applyAlpha(Appearance.m3colors.m3outline, 0.62)
+                : ColorUtils.transparentize(Appearance.m3colors.m3outline, 0.70))
+        border.width: (root.shouldShowActiveBorder || hovered) ? 2 : 1
 
         Rectangle {
             visible: root.glassMode

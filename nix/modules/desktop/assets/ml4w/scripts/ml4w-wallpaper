@@ -226,6 +226,10 @@ info "Quickshell Theme updated"
 qs -p $HOME/.local/share/ml4w-dotfiles-settings/quickshell ipc call theme-manager reload
 info "ML4W Dotfiles Settings Theme updated"
 
+# Update Quickshell Overview theme
+systemctl --user restart ml4w-quickshell-overview.service 2>/dev/null || true
+info "Quickshell Overview Theme updated"
+
 # Reload Waybar
 if pgrep "waybar" > /dev/null
 then

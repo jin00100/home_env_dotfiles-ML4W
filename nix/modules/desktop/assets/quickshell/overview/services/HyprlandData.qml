@@ -20,6 +20,8 @@ Singleton {
     property var workspaceIds: []
     property var workspaceById: ({})
     property var activeWorkspace: null
+    property var activeWindow: null
+    property string activeWindowAddress: ""
     property var monitors: []
     property var layers: ({})
     property bool pendingWindowsUpdate: false
@@ -27,6 +29,7 @@ Singleton {
     property bool pendingLayersUpdate: false
     property bool pendingWorkspacesUpdate: false
     property bool pendingActiveWorkspaceUpdate: false
+    property bool pendingActiveWindowUpdate: false
 
     function updateWindowList() {
         getClients.running = true;
@@ -45,16 +48,21 @@ Singleton {
         getActiveWorkspace.running = true;
     }
 
-    function updateAll() {
-        scheduleUpdates(true, true, true, true, true);
+    function updateActiveWindow() {
+        getActiveWindow.running = true;
     }
 
-    function scheduleUpdates(windows, monitors, layers, workspaces, activeWorkspace) {
+    function updateAll() {
+        scheduleUpdates(true, true, true, true, true, true);
+    }
+
+    function scheduleUpdates(windows, monitors, layers, workspaces, activeWorkspace, activeWindow) {
         pendingWindowsUpdate = pendingWindowsUpdate || !!windows;
         pendingMonitorsUpdate = pendingMonitorsUpdate || !!monitors;
         pendingLayersUpdate = pendingLayersUpdate || !!layers;
         pendingWorkspacesUpdate = pendingWorkspacesUpdate || !!workspaces;
         pendingActiveWorkspaceUpdate = pendingActiveWorkspaceUpdate || !!activeWorkspace;
+        pendingActiveWindowUpdate = pendingActiveWindowUpdate || !!activeWindow;
 
         const debounceMs = Math.max(0, Config.options.hacks.hyprlandEventDebounceMs);
         if (debounceMs === 0) {
@@ -86,6 +94,10 @@ Singleton {
             pendingActiveWorkspaceUpdate = false;
             getActiveWorkspace.running = true;
         }
+        if (pendingActiveWindowUpdate) {
+            pendingActiveWindowUpdate = false;
+            updateActiveWindow();
+        }
     }
 
     function biggestWindowForWorkspace(workspaceId) {
@@ -98,7 +110,7 @@ Singleton {
     }
 
     Component.onCompleted: {
-        scheduleUpdates(true, true, true, true, true);
+        scheduleUpdates(true, true, true, true, true, true);
         flushPendingUpdates();
     }
 
@@ -111,21 +123,26 @@ Singleton {
                 return;
 
             if (eventName === "openwindow" || eventName === "closewindow" || eventName === "movewindow" || eventName === "movewindowv2" || eventName === "windowtitle") {
-                scheduleUpdates(true, false, false, true, false);
+                scheduleUpdates(true, false, false, true, false, true);
                 return;
             }
 
-            if (eventName === "workspace" || eventName === "workspacev2" || eventName === "focusedmon" || eventName === "focusedmonv2" || eventName === "activewindow" || eventName === "activewindowv2") {
-                scheduleUpdates(false, false, false, true, true);
+            if (eventName === "activewindow" || eventName === "activewindowv2") {
+                scheduleUpdates(true, false, false, false, false, true);
+                return;
+            }
+
+            if (eventName === "workspace" || eventName === "workspacev2" || eventName === "focusedmon" || eventName === "focusedmonv2") {
+                scheduleUpdates(false, false, false, true, true, true);
                 return;
             }
 
             if (eventName.startsWith("monitor") || eventName === "configreloaded") {
-                scheduleUpdates(true, true, false, true, true);
+                scheduleUpdates(true, true, false, true, true, true);
                 return;
             }
 
-            scheduleUpdates(true, true, true, true, true);
+            scheduleUpdates(true, true, true, true, true, true);
         }
     }
 
@@ -202,7 +219,40 @@ Singleton {
         stdout: StdioCollector {
             id: activeWorkspaceCollector
             onStreamFinished: {
-                root.activeWorkspace = JSON.parse(activeWorkspaceCollector.text);
+                try {
+                    root.activeWorkspace = JSON.parse(activeWorkspaceCollector.text);
+                } catch (e) {
+                    root.activeWorkspace = null;
+                }
+            }
+        }
+    }
+
+    Process {
+        id: getActiveWindow
+        command: ["hyprctl", "activewindow", "-j"]
+        stdout: StdioCollector {
+            id: activeWindowCollector
+            onStreamFinished: {
+                try {
+                    const text = activeWindowCollector.text.trim();
+                    if (text.length > 0 && text !== "{}") {
+                        const parsed = JSON.parse(text);
+                        if (parsed && parsed.address) {
+                            root.activeWindow = parsed;
+                            root.activeWindowAddress = `${parsed.address}`.toLowerCase();
+                        } else {
+                            root.activeWindow = null;
+                            root.activeWindowAddress = "";
+                        }
+                    } else {
+                        root.activeWindow = null;
+                        root.activeWindowAddress = "";
+                    }
+                } catch (e) {
+                    root.activeWindow = null;
+                    root.activeWindowAddress = "";
+                }
             }
         }
     }

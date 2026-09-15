@@ -54,6 +54,7 @@ Scope {
                 target: GlobalStates
                 function onOverviewOpenChanged() {
                     if (GlobalStates.overviewOpen) {
+                        HyprlandData.updateAll();
                         delayedGrabTimer.start();
                     }
                 }

@@ -28,7 +28,7 @@ Item {
     property var workspaceIds: HyprlandData.workspaceIds
     property var monitorData: HyprlandData.monitors.find(m => m.id === root.monitor?.id)
     property real scale: Config.options.overview.scale
-    property color activeBorderColor: Appearance.colors.colSecondary
+    property color activeBorderColor: Appearance.colors.colPrimary
 
     property real workspaceImplicitWidth: Math.round((monitorData?.transform % 2 === 1) ?
         (((monitor?.height ?? 1080) / (monitor?.scale ?? 1) - (monitorData?.reserved?.[0] ?? 0) - (monitorData?.reserved?.[2] ?? 0)) * root.scale) :
@@ -766,6 +766,7 @@ Item {
                                             xOffset: 0
                                             yOffset: 0
                                             widgetMonitorId: root.monitor.id
+                                            widgetMonitorActiveWorkspaceId: root.effectiveActiveWorkspaceId
                                             recaptureToken: root.previewRecaptureToken
                                             restrictToWorkspace: false
                                             animateSize: false
@@ -1056,6 +1057,7 @@ Item {
                     availableWorkspaceWidth: root.workspaceImplicitWidth
                     availableWorkspaceHeight: root.workspaceImplicitHeight
                     widgetMonitorId: root.monitor?.id ?? -1
+                    widgetMonitorActiveWorkspaceId: root.effectiveActiveWorkspaceId
                     recaptureToken: root.previewRecaptureToken
 
                     property bool atInitPosition: (initX == x && initY == y)
