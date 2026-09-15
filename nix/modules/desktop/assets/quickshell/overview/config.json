@@ -1,6 +1,6 @@
 {
   "appearance": {
-    "colorSource": "default",
+    "colorSource": "matugen",
     "caelestia": {
       "autoRefresh": true,
       "refreshInterval": 2000,
@@ -32,9 +32,9 @@
     },
     "animation": {
       "duration": {
-        "elementMove": 500,
-        "elementMoveEnter": 400,
-        "elementMoveFast": 200
+        "elementMove": 180,
+        "elementMoveEnter": 150,
+        "elementMoveFast": 100
       }
     },
     "sizes": {
@@ -47,25 +47,34 @@
     "scale": 0.16,
     "enable": true,
     "hideEmptyRows": true,
+    "closeOnFocusLoss": true,
+    "previewsEnabled": false,
+    "previewMode": "event",
+    "includeInactiveMonitorPreviews": false,
+    "previewRecaptureDelayMs": 150,
     "workspaceSpacing": 5,
     "backgroundPadding": 10,
     "workspaceNumberBaseSize": 250,
     "effects": {
-      "panelOpacity": 0.76,
-      "workspaceOpacity": 0.72,
-      "windowOverlayOpacity": 0.10
+      "enableBackdrop": false,
+      "enableBlur": false,
+      "panelOpacity": 0.85,
+      "workspaceOpacity": 0.78,
+      "windowOverlayOpacity": 0.12
     }
   },
   "position": {
     "topMargin": 100
   },
   "windowPreview": {
-    "iconToWindowRatio": 0.25,
+    "showIcons": true,
+    "iconToWindowRatio": 0.35,
     "iconToWindowRatioCompact": 0.45,
     "xwaylandIndicatorToIconRatio": 0.35,
     "inactiveMonitorOpacity": 0.85
   },
   "hacks": {
-    "arbitraryRaceConditionDelay": 150
+    "arbitraryRaceConditionDelay": 50,
+    "hyprlandEventDebounceMs": 80
   }
 }

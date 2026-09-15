@@ -56,11 +56,13 @@ Singleton {
     }
 
     function transparentize(color, percentage = 1) {
+        if (!color) return Qt.rgba(0, 0, 0, 0);
         var c = Qt.color(color);
         return Qt.rgba(c.r, c.g, c.b, c.a * (1 - percentage));
     }
 
     function applyAlpha(color, alpha) {
+        if (!color) return Qt.rgba(0, 0, 0, 0);
         var c = Qt.color(color);
         var a = Math.max(0, Math.min(1, alpha));
         return Qt.rgba(c.r, c.g, c.b, a);

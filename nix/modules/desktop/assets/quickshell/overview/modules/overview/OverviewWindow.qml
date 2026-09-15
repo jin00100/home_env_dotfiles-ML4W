@@ -149,29 +149,54 @@ Item { // Window
             : Appearance.colors.colLayer2
     }
 
-    ScreencopyView {
-        id: windowPreview
-        readonly property real srcAspect: {
-            const w = root.windowData?.size?.[0] ?? 0;
-            const h = root.windowData?.size?.[1] ?? 0;
-            return (w > 0 && h > 0) ? (w / h) : 1;
-        }
-        anchors.centerIn: parent
-        width: root.cropToFill
-            ? Math.max(parent.width, parent.height * srcAspect)
-            : Math.min(parent.width, parent.height * srcAspect)
-        height: root.cropToFill
-            ? Math.max(parent.height, parent.width / srcAspect)
-            : Math.min(parent.height, parent.width / srcAspect)
-        captureSource: shouldCapturePreview ? root.toplevel : null
-        live: livePreviewEnabled
-        layer.enabled: true
-        layer.smooth: true
-        layer.effect: MultiEffect {
-            maskEnabled: true
-            maskSource: previewMask
-            maskThresholdMin: 0.5
-            maskSpreadAtMin: 1.0
+    Loader {
+        id: previewLoader
+        active: root.shouldCapturePreview
+        anchors.fill: parent
+        sourceComponent: Item {
+            anchors.fill: parent
+
+            ScreencopyView {
+                id: windowPreview
+                readonly property real srcAspect: {
+                    const w = root.windowData?.size?.[0] ?? 0;
+                    const h = root.windowData?.size?.[1] ?? 0;
+                    return (w > 0 && h > 0) ? (w / h) : 1;
+                }
+                anchors.centerIn: parent
+                width: root.cropToFill
+                    ? Math.max(parent.width, parent.height * srcAspect)
+                    : Math.min(parent.width, parent.height * srcAspect)
+                height: root.cropToFill
+                    ? Math.max(parent.height, parent.width / srcAspect)
+                    : Math.min(parent.height, parent.width / srcAspect)
+                captureSource: root.toplevel
+                live: root.livePreviewEnabled
+                layer.enabled: true
+                layer.smooth: true
+                layer.effect: MultiEffect {
+                    maskEnabled: true
+                    maskSource: previewMask
+                    maskThresholdMin: 0.5
+                    maskSpreadAtMin: 1.0
+                }
+            }
+
+            Item {
+                id: previewMask
+                width: windowPreview.width
+                height: windowPreview.height
+                anchors.centerIn: parent
+                visible: false
+                layer.enabled: true
+                layer.smooth: true
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: root.width
+                    height: root.height
+                    radius: Appearance.rounding.windowRounding * root.scale
+                }
+            }
         }
     }
 
@@ -244,21 +269,6 @@ Item { // Window
         }
     }
 
-    Item {
-        id: previewMask
-        width: windowPreview.width
-        height: windowPreview.height
-        anchors.centerIn: parent
-        visible: false
-        layer.enabled: true
-        layer.smooth: true
-        Rectangle {
-            anchors.centerIn: parent
-            width: root.width
-            height: root.height
-            radius: Appearance.rounding.windowRounding * root.scale
-        }
-    }
 
     function refreshCapture() {
         if (!GlobalStates.overviewOpen || livePreviewEnabled || !previewsEnabled)
