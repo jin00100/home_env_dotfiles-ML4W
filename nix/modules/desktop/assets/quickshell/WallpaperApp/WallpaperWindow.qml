@@ -6,7 +6,6 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt.labs.folderlistmodel
-import Qt5Compat.GraphicalEffects
 import QtQuick.Effects
 import qs.CustomTheme
 

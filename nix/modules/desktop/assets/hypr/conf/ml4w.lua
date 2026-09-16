@@ -101,15 +101,6 @@ hl.window_rule({
     size = "900 600"
 })
 
--- Gnome Calculator
-hl.window_rule({
-    name = "gnome-calculator",
-    match = {class = "org.gnome.Calculator"},
-    float = true,
-    center = true,
-    size = "700 600"
-})
-
 -- Hyprland Share Picker
 hl.window_rule({
     name = "hyprland-share-picker",
