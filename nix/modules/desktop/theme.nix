@@ -125,6 +125,11 @@
     copyConfig "${./assets/walker}" "walker"
     copyConfig "${./assets/quickshell}" "quickshell"
     copyConfig "${./assets/matugen}" "matugen"
+
+    # Ensure Fcitx5 does not hijack Super+Space (launcher shortcut) across all machines
+    if [ -f "$HOME/.config/fcitx5/config" ]; then
+      ${pkgs.gnused}/bin/sed -i -E 's/^(0=.*Super\+space.*)$/0=/' "$HOME/.config/fcitx5/config"
+    fi
   '';
 
   # Static assets & settings that don't need runtime write access

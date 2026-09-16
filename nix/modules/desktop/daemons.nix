@@ -64,6 +64,11 @@ in
       };
       Service = {
         Type = "simple";
+        ExecStartPre = "${pkgs.writeShellScript "sanitize-fcitx5-config" ''
+          if [ -f "$HOME/.config/fcitx5/config" ]; then
+            ${pkgs.gnused}/bin/sed -i -E 's/^(0=.*Super\+space.*)$/0=/' "$HOME/.config/fcitx5/config"
+          fi
+        ''}";
         ExecStart = "/usr/bin/fcitx5 --replace";
         Restart = "on-failure";
         RestartSec = 2;
