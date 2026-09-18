@@ -90,7 +90,7 @@
   home.sessionVariables = {
     LANG = "C.UTF-8";
     LC_ALL = "C.UTF-8";
-    GTK_IM_MODULE = "fcitx";
+    # GTK_IM_MODULE = "fcitx"; # Unset on Wayland to let GTK3/4 use text-input-v3 natively
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
     # SDL_IM_MODULE = "fcitx";
