@@ -59,6 +59,14 @@
               cp -P "$dest/$f" "$backup_dir/$f"
             fi
           done
+        elif [ "$2" = "btop" ]; then
+          if [ -d "$dest/themes" ]; then
+            mkdir -p "$backup_dir/themes"
+            cp -r "$dest/themes"/* "$backup_dir/themes/" 2>/dev/null || true
+          fi
+          if [ -f "$dest/btop.conf" ]; then
+            cp "$dest/btop.conf" "$backup_dir/btop.conf"
+          fi
         fi
       fi
 
@@ -96,6 +104,14 @@
               cp -P "$backup_dir/$f" "$tmp_dest/$f"
             fi
           done
+        elif [ "$2" = "btop" ]; then
+          if [ -d "$backup_dir/themes" ]; then
+            mkdir -p "$tmp_dest/themes"
+            cp -r "$backup_dir/themes"/* "$tmp_dest/themes/" 2>/dev/null || true
+          fi
+          if [ -f "$backup_dir/btop.conf" ]; then
+            cp "$backup_dir/btop.conf" "$tmp_dest/btop.conf"
+          fi
         fi
       fi
       rm -rf "$backup_dir"
@@ -125,6 +141,7 @@
     copyConfig "${./assets/walker}" "walker"
     copyConfig "${./assets/quickshell}" "quickshell"
     copyConfig "${./assets/matugen}" "matugen"
+    copyConfig "${./assets/btop}" "btop"
 
     # Ensure Fcitx5 does not hijack Super+Space (launcher shortcut) across all machines
     if [ -f "$HOME/.config/fcitx5/config" ]; then
@@ -138,7 +155,7 @@
     "wlogout".source = ./assets/wlogout;
     "waypaper".source = ./assets/waypaper;
     # "fastfetch".source = ./assets/fastfetch; # managed locally to coexist with Niri
-    "btop".source = ./assets/btop;
+    # "btop".source = ./assets/btop; # managed via copyConfig for dynamic theming
     # "qt6ct".source = ./assets/qt6ct; # managed locally to coexist with Niri
     "ml4w-dotfiles-settings".source = ./assets/ml4w-dotfiles-settings;
     "sidepad".source = ./assets/sidepad;
